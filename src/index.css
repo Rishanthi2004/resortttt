@@ -1,0 +1,136 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  :root {
+    --font-serif: 'Cormorant Garamond', Georgia, serif;
+    --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+    font-family: var(--font-sans);
+  }
+}
+
+.font-serif-luxury {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+.font-sans-luxury {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
+/* Subtle luxury atmospheric fog overlay */
+@keyframes mistDrift {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.18;
+  }
+  50% {
+    transform: translate3d(-3%, -2%, 0) scale(1.04);
+    opacity: 0.28;
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.18;
+  }
+}
+
+.animate-mist-slow {
+  animation: mistDrift 28s ease-in-out infinite;
+}
+
+/* Page enter transition */
+@keyframes pageEnterFade {
+  0% {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-page-enter {
+  animation: pageEnterFade 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Subtle slow cinematic zoom (Ken Burns) */
+@keyframes kenBurnsSlow {
+  0% {
+    transform: scale(1.02);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1.02);
+  }
+}
+
+.animate-kenburns {
+  animation: kenBurnsSlow 36s ease-in-out infinite;
+}
+
+/* Continuous Moving Gallery Marquee Keyframes */
+@keyframes marqueeLeft {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes marqueeRight {
+  0% {
+    transform: translate3d(-50%, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.animate-marquee-left {
+  animation: marqueeLeft 45s linear infinite;
+}
+
+.animate-marquee-left-fast {
+  animation: marqueeLeft 28s linear infinite;
+}
+
+.animate-marquee-right {
+  animation: marqueeRight 50s linear infinite;
+}
+
+.animate-marquee-right-fast {
+  animation: marqueeRight 30s linear infinite;
+}
+
+.pause-animation {
+  animation-play-state: paused !important;
+}
+
+/* Custom discreet scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #d6d3d1;
+  border-radius: 3px;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #44403c;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a29e;
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #78716c;
+}

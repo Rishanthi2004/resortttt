@@ -1,0 +1,6 @@
+{
+  "name": "Aura Sanctuary | Luxury Mountain & Forest Retreat",
+  "description": "An ultra-luxury sanctuary nestled between misty mountain peaks and ancient pine forests featuring private infinity pool villas, Michelin-inspired forest dining, and holistic alpine wellness.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
