@@ -1,6 +1,9 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { X, Calendar, Users, Home, CheckCircle2, ShieldCheck, Printer, ArrowLeft } from 'lucide-react';
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { RESORT_DATA, Villa } from '../data/resortData';
+
+const LUXURY_EASE = [0.22, 1, 0.36, 1] as const;
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -39,6 +42,13 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   // Confirmation View
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [confirmationCode, setConfirmationCode] = useState('');
+  const shouldReduceMotion = useReducedMotion();
+
+  useEffect(() => {
+    if (isOpen && preselectedVillaId) {
+      setSelectedVillaId(preselectedVillaId);
+    }
+  }, [isOpen, preselectedVillaId]);
 
   const currentVilla: Villa = useMemo(() => {
     return RESORT_DATA.villas.find((v) => v.id === selectedVillaId) || RESORT_DATA.villas[0];
@@ -115,18 +125,32 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen]);
 
-  if (!isOpen) return null;
-
   return (
-    <div
-      onClick={(e) => {
-        if (e.target === e.currentTarget) {
-          resetAndClose();
-        }
-      }}
-      className="fixed inset-0 z-50 bg-stone-950/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 overflow-hidden animate-fade-in"
-    >
-      <div className="bg-[#FAF8F5] dark:bg-stone-900 border border-stone-200 dark:border-stone-700 max-w-4xl w-full max-h-[92vh] flex flex-col relative shadow-2xl text-stone-900 dark:text-stone-100 transition-colors overflow-hidden rounded-sm">
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: shouldReduceMotion ? 0.15 : 0.28 }}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              resetAndClose();
+            }
+          }}
+          className="fixed inset-0 z-50 bg-stone-950/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 overflow-hidden"
+        >
+          <motion.div
+            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.94, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.95, y: 14 }}
+            transition={
+              shouldReduceMotion
+                ? { duration: 0.15 }
+                : { type: 'spring', stiffness: 260, damping: 26 }
+            }
+            className="bg-[#FAF8F5] dark:bg-stone-900 border border-stone-200 dark:border-stone-700 max-w-4xl w-full max-h-[92vh] flex flex-col relative shadow-2xl text-stone-900 dark:text-stone-100 transition-colors overflow-hidden rounded-sm"
+          >
         {/* Sticky Header with prominent Back button & Close */}
         <div className="px-5 py-4 sm:px-8 sm:py-5 border-b border-stone-200 dark:border-stone-800 bg-[#FAF8F5] dark:bg-stone-900 sticky top-0 z-30 shrink-0 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
@@ -164,12 +188,25 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
         {/* Scrollable Modal Body */}
         <div className="flex-1 overflow-y-auto">
+        <AnimatePresence mode="wait">
         {isConfirmed ? (
-          <div className="p-6 md:p-10 space-y-8">
+          <motion.div
+            key="confirmed"
+            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 16, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: shouldReduceMotion ? 0.15 : 0.35, ease: LUXURY_EASE }}
+            className="p-6 md:p-10 space-y-8"
+          >
             <div className="text-center py-6 border-b border-stone-200 dark:border-stone-800">
-              <div className="inline-flex p-3 bg-amber-100 dark:bg-amber-950/60 border border-amber-300 dark:border-amber-500/40 rounded-full mb-4">
+              <motion.div
+                initial={shouldReduceMotion ? undefined : { scale: 0.5, rotate: -12 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{ type: 'spring', stiffness: 280, damping: 18, delay: 0.08 }}
+                className="inline-flex p-3 bg-amber-100 dark:bg-amber-950/60 border border-amber-300 dark:border-amber-500/40 rounded-full mb-4"
+              >
                 <CheckCircle2 className="w-8 h-8 text-amber-700 dark:text-amber-300" />
-              </div>
+              </motion.div>
               <p className="text-xs tracking-[0.25em] uppercase text-amber-700 dark:text-amber-300/80 mb-1">
                 Booking Reference
               </p>
@@ -254,9 +291,17 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 Return to Resort
               </button>
             </div>
-          </div>
+          </motion.div>
         ) : (
-          <form onSubmit={handleSubmit} className="p-6 md:p-10 space-y-8">
+          <motion.form
+            key="form"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            onSubmit={handleSubmit}
+            className="p-6 md:p-10 space-y-8"
+          >
             <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
               {/* Left Column: Configuration Controls */}
               <div className="md:col-span-7 space-y-6">
@@ -458,13 +503,20 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               {/* Right Column: Pricing Breakdown & Real Photo Preview */}
               <div className="md:col-span-5 flex flex-col justify-between bg-stone-50 dark:bg-stone-950 p-6 border border-stone-200 dark:border-stone-800">
                 <div>
-                  <div className="aspect-[16/10] overflow-hidden mb-4 border border-stone-200 dark:border-stone-800 relative shadow-sm dark:shadow-none">
-                    <img
-                      src={currentVilla.coverImage}
-                      alt={currentVilla.name}
-                      referrerPolicy="no-referrer"
-                      className="w-full h-full object-cover"
-                    />
+                  <div className="aspect-[16/10] overflow-hidden mb-4 border border-stone-200 dark:border-stone-800 relative shadow-sm dark:shadow-none bg-stone-200 dark:bg-stone-800">
+                    <AnimatePresence mode="wait">
+                      <motion.img
+                        key={currentVilla.id}
+                        src={currentVilla.coverImage}
+                        alt={currentVilla.name}
+                        referrerPolicy="no-referrer"
+                        initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, scale: 1.05 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: shouldReduceMotion ? 0.15 : 0.4, ease: LUXURY_EASE }}
+                        className="w-full h-full object-cover"
+                      />
+                    </AnimatePresence>
                     <div className="absolute bottom-2 left-2 right-2 bg-stone-950/80 px-2.5 py-1 text-[10px] text-stone-200 flex justify-between">
                       <span>{currentVilla.name}</span>
                       <span>{currentVilla.sqm} m²</span>
@@ -540,10 +592,13 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 </div>
               </div>
             </div>
-          </form>
+          </motion.form>
         )}
+        </AnimatePresence>
         </div>
-      </div>
-    </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };

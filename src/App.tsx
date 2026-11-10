@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { AboutUs } from './components/AboutUs';
-import { Services } from './components/Services';
+import { Facilities } from './components/Facilities';
 import { MovingGallery } from './components/MovingGallery';
 import { Contact } from './components/Contact';
 import { BookingModal } from './components/BookingModal';
@@ -34,16 +34,21 @@ export default function App() {
     setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
   };
 
+  const getSectionElement = (sectionId: string): HTMLElement | null =>
+    document.querySelector<HTMLElement>(`[data-scroll-section="${sectionId}"]`) ??
+    document.getElementById(sectionId);
+
   // Active section tracking for navbar highlighting
   useEffect(() => {
-    const sections = ['home', 'about', 'services', 'gallery', 'contact'];
+    const sections = ['home', 'about', 'facilities', 'gallery', 'contact'];
     const handleScroll = () => {
       const scrollY = window.scrollY;
       for (const sectionId of sections) {
-        const el = document.getElementById(sectionId);
+        const el = getSectionElement(sectionId);
         if (el) {
-          const top = el.offsetTop - 140;
-          const height = el.offsetHeight;
+          const rect = el.getBoundingClientRect();
+          const top = rect.top + scrollY - 140;
+          const height = rect.height;
           if (scrollY >= top && scrollY < top + height) {
             setActiveSection(sectionId);
             return;
@@ -65,15 +70,12 @@ export default function App() {
   };
 
   const handleNavigateSection = (sectionId: string) => {
-    const el = document.getElementById(sectionId);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
+    getSectionElement(sectionId)?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
     <div className="min-h-screen bg-[#FAF8F5] dark:bg-stone-950 text-stone-900 dark:text-stone-100 flex flex-col selection:bg-amber-900/20 dark:selection:bg-amber-900/40 selection:text-amber-900 dark:selection:text-amber-100 transition-colors duration-500">
-      {/* Top Bar Navigation (Strictly Home, About Us, Services, Gallery, Contact) */}
+      {/* Top Bar Navigation (Strictly Home, About Us, Facilities, Gallery, Contact) */}
       <Navbar
         onOpenBooking={() => handleOpenBooking()}
         activeSection={activeSection}
@@ -82,42 +84,44 @@ export default function App() {
         onNavigateSection={handleNavigateSection}
       />
 
-      {/* Main Content Sections strictly organized into Home, About Us, Services, Gallery, Contact */}
+      {/* Main Content Sections strictly organized into Home, About Us, Facilities, Gallery, Contact */}
       <main className="flex-1">
         {/* 1. HOME: Luminous, Bright Aerial Drone Hero */}
-        <ScrollSection id="home" isInitialVisible>
+        <ScrollSection id="home" isInitialVisible variant="hero">
           <Hero
-            onExploreVillas={() => handleNavigateSection('services')}
+            onExploreVillas={() => handleNavigateSection('facilities')}
             onOpenBooking={() => handleOpenBooking()}
             onNavigateAbout={() => handleNavigateSection('about')}
           />
         </ScrollSection>
 
         {/* 2. ABOUT US: Architectural story, nature pathway photography, and manifesto */}
-        <ScrollSection id="about">
+        <ScrollSection id="about" variant="editorial">
           <AboutUs />
         </ScrollSection>
 
-        {/* 3. SERVICES: Accommodations, Gastronomy, Thermal Onsen, & Mountain Expeditions (Side-by-side 2 cards on mobile) */}
-        <ScrollSection id="services">
-          <Services
+        {/* 3. FACILITIES: Accommodations, Gastronomy, Thermal Onsen, & Mountain Expeditions (Side-by-side 2 cards on mobile) */}
+        <ScrollSection id="facilities" variant="cascade">
+          <Facilities
             onOpenBooking={() => handleOpenBooking()}
           />
         </ScrollSection>
 
         {/* 4. GALLERY: Moving Photographic Gallery with continuous moving reel */}
-        <ScrollSection id="gallery">
+        <ScrollSection id="gallery" variant="curtain">
           <MovingGallery />
         </ScrollSection>
 
         {/* 5. CONTACT: Direct VIP Concierge, phone, email & simple inquiry form */}
-        <ScrollSection id="contact">
+        <ScrollSection id="contact" variant="concierge">
           <Contact />
         </ScrollSection>
       </main>
 
       {/* Footer */}
-      <Footer onNavigateSection={handleNavigateSection} />
+      <ScrollSection id="footer" variant="footer">
+        <Footer onNavigateSection={handleNavigateSection} />
+      </ScrollSection>
 
       {/* Reservation Engine Modal */}
       <BookingModal

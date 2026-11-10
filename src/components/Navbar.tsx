@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 
 interface NavbarProps {
   onOpenBooking: () => void;
@@ -16,6 +17,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,7 +30,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   const navLinks = [
     { label: 'Home', id: 'home' },
     { label: 'About Us', id: 'about' },
-    { label: 'Services', id: 'services' },
+    { label: 'Facilities', id: 'facilities' },
     { label: 'Gallery', id: 'gallery' },
     { label: 'Contact', id: 'contact' },
   ];
@@ -77,7 +79,15 @@ export const Navbar: React.FC<NavbarProps> = ({
                 >
                   {link.label}
                   {isActive && (
-                    <span className="absolute bottom-0 left-0 w-full h-[1px] bg-amber-600 dark:bg-amber-300/80" />
+                    <motion.span
+                      layoutId="navbar-active-indicator"
+                      transition={
+                        shouldReduceMotion
+                          ? { duration: 0.1 }
+                          : { type: 'spring', stiffness: 360, damping: 30 }
+                      }
+                      className="absolute bottom-0 left-0 w-full h-[1px] bg-amber-600 dark:bg-amber-300/80"
+                    />
                   )}
                 </button>
               );
@@ -111,46 +121,57 @@ export const Navbar: React.FC<NavbarProps> = ({
       </header>
 
       {/* Mobile Drawer */}
-      {mobileMenuOpen && (
-        <div className="fixed inset-0 z-40 bg-stone-50/98 dark:bg-stone-950/95 backdrop-blur-xl md:hidden pt-24 px-8 flex flex-col justify-between pb-8">
-          <nav className="flex flex-col gap-5 text-sm tracking-[0.25em] uppercase font-serif-luxury text-stone-800 dark:text-stone-200">
-            {navLinks.map((link) => {
-              const isActive = activeSection === link.id;
-              return (
-                <button
-                  key={link.label}
-                  type="button"
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    onNavigateSection?.(link.id);
-                  }}
-                  className={`py-2 text-left border-b border-stone-200 dark:border-stone-800 transition-colors cursor-pointer flex items-center justify-between ${
-                    isActive
-                      ? 'text-amber-700 dark:text-amber-300 font-semibold'
-                      : 'text-stone-800 dark:text-stone-200 hover:text-amber-700 dark:hover:text-amber-200'
-                  }`}
-                >
-                  <span>{link.label}</span>
-                  {isActive && <span className="text-xs text-amber-600 dark:text-amber-400">●</span>}
-                </button>
-              );
-            })}
-          </nav>
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -12 }}
+            transition={{ duration: shouldReduceMotion ? 0.15 : 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed inset-0 z-40 bg-stone-50/98 dark:bg-stone-950/95 backdrop-blur-xl md:hidden pt-24 px-8 flex flex-col justify-between pb-8"
+          >
+            <nav className="flex flex-col gap-5 text-sm tracking-[0.25em] uppercase font-serif-luxury text-stone-800 dark:text-stone-200">
+              {navLinks.map((link, idx) => {
+                const isActive = activeSection === link.id;
+                return (
+                  <motion.button
+                    key={link.label}
+                    type="button"
+                    initial={shouldReduceMotion ? undefined : { opacity: 0, x: -16 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.28, delay: shouldReduceMotion ? 0 : idx * 0.04 }}
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      onNavigateSection?.(link.id);
+                    }}
+                    className={`py-2 text-left border-b border-stone-200 dark:border-stone-800 transition-colors cursor-pointer flex items-center justify-between ${
+                      isActive
+                        ? 'text-amber-700 dark:text-amber-300 font-semibold'
+                        : 'text-stone-800 dark:text-stone-200 hover:text-amber-700 dark:hover:text-amber-200'
+                    }`}
+                  >
+                    <span>{link.label}</span>
+                    {isActive && <span className="text-xs text-amber-600 dark:text-amber-400">●</span>}
+                  </motion.button>
+                );
+              })}
+            </nav>
 
-          <div className="space-y-4">
-            <button
-              onClick={() => {
-                setMobileMenuOpen(false);
-                onOpenBooking();
-              }}
-              type="button"
-              className="w-full py-3 text-xs tracking-[0.25em] font-medium uppercase text-stone-950 bg-amber-100 hover:bg-amber-200 transition-colors cursor-pointer font-sans"
-            >
-              Reserve Stay
-            </button>
-          </div>
-        </div>
-      )}
+            <div className="space-y-4">
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onOpenBooking();
+                }}
+                type="button"
+                className="w-full py-3 text-xs tracking-[0.25em] font-medium uppercase text-stone-950 bg-amber-100 hover:bg-amber-200 transition-colors cursor-pointer font-sans"
+              >
+                Reserve Stay
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 };
