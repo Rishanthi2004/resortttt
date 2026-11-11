@@ -67,19 +67,22 @@ export const RESORT_DATA = {
   coordinates: "46°21'32\"N 10°52'19\"E",
   // User-provided real resort photography assets
   userImages: {
+    heroHillsideRetreat: "/assets/hero-hillside-retreat.jpg",
+    cliffTimberBungalow: "/assets/gallery-cliff-timber-bungalow.jpg",
+    mountainRidgeGrounds: "/assets/gallery-mountain-ridge-grounds.jpg",
+    hillsideTwinVillas: "/assets/gallery-hillside-twin-villas.jpg",
+    colonialManorEstate: "/assets/gallery-colonial-manor-estate.jpg",
     teaValleyTrail: "/assets/aistudio/cb6b93e93c3a24143083eef6350ab534_cd4c702d.jpg",
-    horizonVilla: "/assets/aistudio/2698799c99d6bddad7b9d2a7f0113f36_a2252865.jpg",
-    valleyResidence: "/assets/aistudio/72a40791444f43524fda763d7ccfbd42_2ca9fb20.jpg",
     stoneCottage: "/assets/aistudio/53648d5ddcc5a3211416b17975e2712e_d05d197b.jpg",
     emeraldLake: "/assets/aistudio/13a9fc9d840154fec5f5a4ffc1093d5c_5ec2d6eb.jpg",
     mistyChalet: "/assets/aistudio/b01d3d3e628697c8bb82c00b8cd96ff1_2e27420a.jpg"
   },
-  heroDroneImage: "/assets/aistudio/cb6b93e93c3a24143083eef6350ab534_cd4c702d.jpg",
-  infinityPoolImage: "/assets/aistudio/2698799c99d6bddad7b9d2a7f0113f36_a2252865.jpg",
-  bedroomInteriorImage: "/assets/aistudio/72a40791444f43524fda763d7ccfbd42_2ca9fb20.jpg",
-  diningTwilightImage: "/assets/aistudio/b01d3d3e628697c8bb82c00b8cd96ff1_2e27420a.jpg",
+  heroDroneImage: "/assets/hero-hillside-retreat.jpg",
+  infinityPoolImage: "/assets/gallery-hillside-twin-villas.jpg",
+  bedroomInteriorImage: "/assets/gallery-cliff-timber-bungalow.jpg",
+  diningTwilightImage: "/assets/gallery-colonial-manor-estate.jpg",
   spaWellnessImage: "/assets/aistudio/53648d5ddcc5a3211416b17975e2712e_d05d197b.jpg",
-  naturePathwayImage: "/assets/aistudio/72a40791444f43524fda763d7ccfbd42_2ca9fb20.jpg",
+  naturePathwayImage: "/assets/hero-hillside-retreat.jpg",
   
   stats: [
     { label: "Private Acreage", value: "320 Hectares" },
@@ -100,9 +103,9 @@ export const RESORT_DATA = {
       poolType: "22m Heated Mineral Infinity Pool",
       pricePerNight: 2850,
       description: "Perched dramatically above the mist layer, the Celestial Horizon Villa combines warm timber and floor-to-ceiling glass framing unobstructed views of lush mountain terraces and golden sunrise.",
-      coverImage: "/assets/aistudio/2698799c99d6bddad7b9d2a7f0113f36_a2252865.jpg",
+      coverImage: "/assets/gallery-hillside-twin-villas.jpg",
       gallery: [
-        { url: "/assets/aistudio/2698799c99d6bddad7b9d2a7f0113f36_a2252865.jpg", caption: "Sunset reflection along the cantilevered timber glass pavilion" },
+        { url: "/assets/gallery-hillside-twin-villas.jpg", caption: "Hillside twin villas framed by lush mountain greenery" },
         { url: "/assets/aistudio/cb6b93e93c3a24143083eef6350ab534_cd4c702d.jpg", caption: "Sun-drenched morning trails through the private estate" },
         { url: "/assets/aistudio/13a9fc9d840154fec5f5a4ffc1093d5c_5ec2d6eb.jpg", caption: "Emerald mountain lake panorama visible from the upper terrace" }
       ],
@@ -136,7 +139,7 @@ export const RESORT_DATA = {
       coverImage: "/assets/aistudio/53648d5ddcc5a3211416b17975e2712e_d05d197b.jpg",
       gallery: [
         { url: "/assets/aistudio/53648d5ddcc5a3211416b17975e2712e_d05d197b.jpg", caption: "Forest stone cottage and lawn framed by pine slopes" },
-        { url: "/assets/aistudio/72a40791444f43524fda763d7ccfbd42_2ca9fb20.jpg", caption: "Stone pathway arrival amidst morning cloud inversion" },
+        { url: "/assets/gallery-cliff-timber-bungalow.jpg", caption: "Timber balcony deck overlooking emerald mountain cliffs" },
         { url: "/assets/aistudio/cb6b93e93c3a24143083eef6350ab534_cd4c702d.jpg", caption: "Direct access to sunlit forest hiking and tea plantation trails" }
       ],
       features: [
@@ -166,10 +169,10 @@ export const RESORT_DATA = {
       poolType: "14m Glass-Front Infinity Plunge Pool",
       pricePerNight: 2350,
       description: "Suspended on a scenic promontory, the Ridge Valley Residence offers front-row seats to the drama of shifting mountain weather and valley mist rivers. Enjoy dawn tranquility on your stone and cedar terrace.",
-      coverImage: "/assets/aistudio/72a40791444f43524fda763d7ccfbd42_2ca9fb20.jpg",
+      coverImage: "/assets/hero-hillside-retreat.jpg",
       gallery: [
-        { url: "/assets/aistudio/72a40791444f43524fda763d7ccfbd42_2ca9fb20.jpg", caption: "Valley estate residence as morning clouds drift through the hills" },
-        { url: "/assets/aistudio/2698799c99d6bddad7b9d2a7f0113f36_a2252865.jpg", caption: "Glass pavilion glowing during golden hour sunset" },
+        { url: "/assets/hero-hillside-retreat.jpg", caption: "Terraced hillside cottages and winding stone garden stairs" },
+        { url: "/assets/gallery-mountain-ridge-grounds.jpg", caption: "Mountain ridge courtyard and firepit overlooking the valley" },
         { url: "/assets/aistudio/13a9fc9d840154fec5f5a4ffc1093d5c_5ec2d6eb.jpg", caption: "Lake and valley vistas surrounding the property" }
       ],
       features: [
@@ -232,7 +235,7 @@ export const RESORT_DATA = {
       hours: "Dinner: 18:30 – 22:30 (Tuesday to Sunday)",
       dressCode: "Smart Casual / Mountain Elegance",
       sommelierHighlight: "Cellar of 4,800 biodynamic and vintage bottles curated by Master Sommelier Elena Vane.",
-      image: "/src/assets/images/resort_dining_twilight_1794297099193.jpg",
+      image: "/assets/gallery-colonial-manor-estate.jpg",
       featuredDishes: [
         { name: "Smoked Alpine Char in Pine Ash", notes: "Fermented juniper emulsion, pickled lingonberries, spruce tip oil" },
         { name: "Aged Venison Loin over Sweet Birch", notes: "Wild mountain morels, roasted sunchoke, black truffle broth" },
@@ -325,7 +328,7 @@ export const RESORT_DATA = {
       tagline: "Guided mindful immersion through ancient old-growth pine groves and glacial falls",
       description: "Led by our resident botanist, awaken your senses through guided breathing exercises, barefoot moss walking, and natural cold-water immersion at a hidden mountain cascade.",
       price: 240,
-      image: "/src/assets/images/nature_gardens_pathway_1794297128443.jpg",
+      image: "/assets/aistudio/cb6b93e93c3a24143083eef6350ab534_cd4c702d.jpg",
       highlights: ["Resident master naturalist guide", "Glacial spring dip", "Foraged pine tea ceremony"]
     },
     {
@@ -354,6 +357,42 @@ export const RESORT_DATA = {
 
   gallery: [
     {
+      id: "gal-user-7",
+      title: "Thatched Timber Deck & Cliffside Mountain Vista",
+      category: "villas",
+      imageUrl: "/assets/gallery-cliff-timber-bungalow.jpg",
+      cameraExif: "Leica Q3 · Summilux 28mm f/1.7 · ISO 100 · 1/400s",
+      location: "Cliffside Timber Deck Bungalows",
+      aspect: "portrait"
+    },
+    {
+      id: "gal-user-8",
+      title: "Highland Ridge Lawns, Firepit & Mountain Panorama",
+      category: "nature",
+      imageUrl: "/assets/gallery-mountain-ridge-grounds.jpg",
+      cameraExif: "Sony A7R V · FE 16-35mm f/2.8 GM II · ISO 100 · 1/500s",
+      location: "Upper Ridge Recreation Lawn",
+      aspect: "portrait"
+    },
+    {
+      id: "gal-user-9",
+      title: "Hillside Terracotta Villas Amidst Tea Slopes",
+      category: "architecture",
+      imageUrl: "/assets/gallery-hillside-twin-villas.jpg",
+      cameraExif: "Canon EOS R5 · RF 24-70mm f/2.8L · ISO 160 · 1/320s",
+      location: "Emerald Slope Twin Residences",
+      aspect: "portrait"
+    },
+    {
+      id: "gal-user-10",
+      title: "Colonial Estate Manor & Misty Forest Gardens",
+      category: "architecture",
+      imageUrl: "/assets/gallery-colonial-manor-estate.jpg",
+      cameraExif: "Fujifilm GFX 100 II · GF 32-64mm f/4 · ISO 200 · 1/250s",
+      location: "Main Estate Courtyard & Terrace",
+      aspect: "portrait"
+    },
+    {
       id: "gal-user-1",
       title: "Sunlit Emerald Tea Valley & Mountain Trail",
       category: "nature",
@@ -363,21 +402,12 @@ export const RESORT_DATA = {
       aspect: "portrait"
     },
     {
-      id: "gal-user-2",
-      title: "Cantilevered Glass Horizon Villa at Golden Dawn",
+      id: "gal-user-11",
+      title: "Terraced Hillside Cottages & Stone Stairways",
       category: "architecture",
-      imageUrl: "/assets/aistudio/2698799c99d6bddad7b9d2a7f0113f36_a2252865.jpg",
-      cameraExif: "Sony A7R V · FE 24-70mm f/2.8 GM II · ISO 100 · 1/200s",
-      location: "The Horizon Ridge Villa Terrace",
-      aspect: "portrait"
-    },
-    {
-      id: "gal-user-3",
-      title: "Mountain Estate Residence & Valley Cloud Inversion",
-      category: "architecture",
-      imageUrl: "/assets/aistudio/72a40791444f43524fda763d7ccfbd42_2ca9fb20.jpg",
-      cameraExif: "Leica SL2 · APO-Summicron-SL 35mm f/2 · ISO 160 · 1/160s",
-      location: "Aura Valley Main Estate Grounds",
+      imageUrl: "/assets/hero-hillside-retreat.jpg",
+      cameraExif: "Leica SL2 · APO-Summicron-SL 35mm f/2 · ISO 160 · 1/250s",
+      location: "Aura Valley Terraced Garden Wing",
       aspect: "portrait"
     },
     {

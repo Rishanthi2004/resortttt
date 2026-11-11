@@ -67,26 +67,33 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     }
   }, [checkIn, checkOut]);
 
-  // Add-on cost calculations
-  const addOnPrices = {
-    helicopter: 1850,
-    sommelier: 320,
-    spaCeremony: 760,
-    hotAirBalloon: 850,
-  };
+  const enhancementOptions = [
+    {
+      key: 'helicopter' as const,
+      title: 'Private Helipad Valley Transfer & Glacier Orbit',
+      description: 'Airbus H130 direct pickup from Milan/Zurich straight onto resort helipad.',
+    },
+    {
+      key: 'sommelier' as const,
+      title: 'Sommelier Subterranean Cellar Tasting',
+      description: 'Exclusive 6-vintage vertical tasting in our 12°C bedrock cave.',
+    },
+    {
+      key: 'spaCeremony' as const,
+      title: 'Twilight Hot Spring Couples Ceremony',
+      description: '120-minute private volcanic onsen access with candlelit massage.',
+    },
+    {
+      key: 'hotAirBalloon' as const,
+      title: 'Sunrise Cloud-River Hot Air Balloon Flight',
+      description: 'Private dawn balloon flight with champagne meadow breakfast.',
+    },
+  ];
 
-  const addOnTotal = useMemo(() => {
-    let sum = 0;
-    if (addOns.helicopter) sum += addOnPrices.helicopter;
-    if (addOns.sommelier) sum += addOnPrices.sommelier;
-    if (addOns.spaCeremony) sum += addOnPrices.spaCeremony;
-    if (addOns.hotAirBalloon) sum += addOnPrices.hotAirBalloon;
-    return sum;
-  }, [addOns]);
-
-  const basePrice = currentVilla.pricePerNight * nights;
-  const conservationLevy = Math.round((basePrice + addOnTotal) * 0.03);
-  const totalPrice = basePrice + addOnTotal + conservationLevy;
+  const selectedEnhancements = useMemo(
+    () => enhancementOptions.filter((opt) => addOns[opt.key]).map((opt) => opt.title),
+    [addOns]
+  );
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -248,28 +255,26 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               </div>
 
               <div>
-                <h5 className="text-[11px] uppercase tracking-wider text-stone-500 dark:text-stone-400 mb-3">Financial Settlement</h5>
+                <h5 className="text-[11px] uppercase tracking-wider text-stone-500 dark:text-stone-400 mb-3">Curated Stay Arrangement</h5>
                 <ul className="space-y-2 text-xs">
-                  <li className="flex justify-between">
-                    <span className="text-stone-500 dark:text-stone-400">Base Residence ({nights} nights):</span>
-                    <span className="text-stone-900 dark:text-stone-200">₹{basePrice.toLocaleString()}</span>
+                  <li className="flex justify-between gap-4">
+                    <span className="text-stone-500 dark:text-stone-400">Sanctuary Suite:</span>
+                    <span className="text-stone-900 dark:text-stone-200 font-medium text-right">{currentVilla.category}</span>
                   </li>
-                  <li className="flex justify-between">
-                    <span className="text-stone-500 dark:text-stone-400">Bespoke Inclusions & Transfers:</span>
-                    <span className="text-stone-900 dark:text-stone-200">₹{addOnTotal.toLocaleString()}</span>
+                  <li className="flex justify-between gap-4">
+                    <span className="text-stone-500 dark:text-stone-400">Included Access:</span>
+                    <span className="text-stone-900 dark:text-stone-200 font-medium text-right">24/7 Butler & Thermal Onsen</span>
                   </li>
-                  <li className="flex justify-between">
-                    <span className="text-stone-500 dark:text-stone-400">Alpine Forest Conservation (3%):</span>
-                    <span className="text-stone-900 dark:text-stone-200">₹{conservationLevy.toLocaleString()}</span>
-                  </li>
-                  <li className="flex justify-between pt-2 border-t border-stone-200 dark:border-stone-800 text-sm font-semibold">
-                    <span className="text-stone-900 dark:text-stone-200">Total Balance:</span>
-                    <span className="text-amber-800 dark:text-amber-200 font-mono">₹{totalPrice.toLocaleString()}</span>
+                  <li className="flex justify-between gap-4">
+                    <span className="text-stone-500 dark:text-stone-400">Selected Enhancements:</span>
+                    <span className="text-stone-900 dark:text-stone-200 font-medium text-right">
+                      {selectedEnhancements.length > 0 ? `${selectedEnhancements.length} Selected` : 'None'}
+                    </span>
                   </li>
                 </ul>
                 <div className="mt-4 p-3 bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-[11px] text-stone-600 dark:text-stone-400 flex items-center gap-2">
                   <ShieldCheck className="w-4 h-4 text-amber-600 dark:text-amber-300/80 shrink-0" />
-                  <span>No prepayment charged today. Settled upon arrival with your private butler.</span>
+                  <span>Our private concierge will coordinate all arrival and bespoke stay arrangements directly with you.</span>
                 </div>
               </div>
             </div>
@@ -317,7 +322,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                   >
                     {RESORT_DATA.villas.map((v) => (
                       <option key={v.id} value={v.id} className="bg-white dark:bg-stone-900 text-stone-900 dark:text-stone-200">
-                        {v.name} (₹{v.pricePerNight.toLocaleString()} / Night)
+                        {v.name} ({v.capacity} · {v.sqm} m²)
                       </option>
                     ))}
                   </select>
@@ -372,77 +377,27 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                     Curated Enhancements (Optional)
                   </label>
                   <div className="space-y-2.5">
-                    <label className="flex items-start gap-3 p-3 bg-white dark:bg-stone-950/70 border border-stone-200 dark:border-stone-800 hover:border-stone-400 dark:hover:border-stone-700 cursor-pointer shadow-sm dark:shadow-none">
-                      <input
-                        type="checkbox"
-                        checked={addOns.helicopter}
-                        onChange={(e) => setAddOns({ ...addOns, helicopter: e.target.checked })}
-                        className="mt-1 accent-amber-600 dark:accent-amber-300"
-                      />
-                      <div className="text-xs">
-                        <div className="flex justify-between text-stone-900 dark:text-stone-200 font-medium">
-                          <span>Private Helipad Valley Transfer & Glacier Orbit</span>
-                          <span className="text-amber-800 dark:text-amber-200 font-mono">+₹1,850</span>
+                    {enhancementOptions.map((option) => (
+                      <label
+                        key={option.key}
+                        className="flex items-start gap-3 p-3 bg-white dark:bg-stone-950/70 border border-stone-200 dark:border-stone-800 hover:border-stone-400 dark:hover:border-stone-700 cursor-pointer shadow-sm dark:shadow-none"
+                      >
+                        <input
+                          type="checkbox"
+                          checked={addOns[option.key]}
+                          onChange={(e) => setAddOns({ ...addOns, [option.key]: e.target.checked })}
+                          className="mt-1 accent-amber-600 dark:accent-amber-300"
+                        />
+                        <div className="text-xs">
+                          <div className="text-stone-900 dark:text-stone-200 font-medium">
+                            {option.title}
+                          </div>
+                          <p className="text-[11px] text-stone-500 dark:text-stone-400 font-light mt-0.5">
+                            {option.description}
+                          </p>
                         </div>
-                        <p className="text-[11px] text-stone-500 dark:text-stone-400 font-light mt-0.5">
-                          Airbus H130 direct pickup from Milan/Zurich straight onto resort helipad.
-                        </p>
-                      </div>
-                    </label>
-
-                    <label className="flex items-start gap-3 p-3 bg-white dark:bg-stone-950/70 border border-stone-200 dark:border-stone-800 hover:border-stone-400 dark:hover:border-stone-700 cursor-pointer shadow-sm dark:shadow-none">
-                      <input
-                        type="checkbox"
-                        checked={addOns.sommelier}
-                        onChange={(e) => setAddOns({ ...addOns, sommelier: e.target.checked })}
-                        className="mt-1 accent-amber-600 dark:accent-amber-300"
-                      />
-                      <div className="text-xs">
-                        <div className="flex justify-between text-stone-900 dark:text-stone-200 font-medium">
-                          <span>Sommelier Subterranean Cellar Tasting</span>
-                          <span className="text-amber-800 dark:text-amber-200 font-mono">+₹320</span>
-                        </div>
-                        <p className="text-[11px] text-stone-500 dark:text-stone-400 font-light mt-0.5">
-                          Exclusive 6-vintage vertical tasting in our 12°C bedrock cave.
-                        </p>
-                      </div>
-                    </label>
-
-                    <label className="flex items-start gap-3 p-3 bg-white dark:bg-stone-950/70 border border-stone-200 dark:border-stone-800 hover:border-stone-400 dark:hover:border-stone-700 cursor-pointer shadow-sm dark:shadow-none">
-                      <input
-                        type="checkbox"
-                        checked={addOns.spaCeremony}
-                        onChange={(e) => setAddOns({ ...addOns, spaCeremony: e.target.checked })}
-                        className="mt-1 accent-amber-600 dark:accent-amber-300"
-                      />
-                      <div className="text-xs">
-                        <div className="flex justify-between text-stone-900 dark:text-stone-200 font-medium">
-                          <span>Twilight Hot Spring Couples Ceremony</span>
-                          <span className="text-amber-800 dark:text-amber-200 font-mono">+₹760</span>
-                        </div>
-                        <p className="text-[11px] text-stone-500 dark:text-stone-400 font-light mt-0.5">
-                          120-minute private volcanic onsen access with candlelit massage.
-                        </p>
-                      </div>
-                    </label>
-
-                    <label className="flex items-start gap-3 p-3 bg-white dark:bg-stone-950/70 border border-stone-200 dark:border-stone-800 hover:border-stone-400 dark:hover:border-stone-700 cursor-pointer shadow-sm dark:shadow-none">
-                      <input
-                        type="checkbox"
-                        checked={addOns.hotAirBalloon}
-                        onChange={(e) => setAddOns({ ...addOns, hotAirBalloon: e.target.checked })}
-                        className="mt-1 accent-amber-600 dark:accent-amber-300"
-                      />
-                      <div className="text-xs">
-                        <div className="flex justify-between text-stone-900 dark:text-stone-200 font-medium">
-                          <span>Sunrise Cloud-River Hot Air Balloon Flight</span>
-                          <span className="text-amber-800 dark:text-amber-200 font-mono">+₹850</span>
-                        </div>
-                        <p className="text-[11px] text-stone-500 dark:text-stone-400 font-light mt-0.5">
-                          Private dawn balloon flight with champagne meadow breakfast.
-                        </p>
-                      </div>
-                    </label>
+                      </label>
+                    ))}
                   </div>
                 </div>
 
@@ -524,35 +479,41 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                   </div>
 
                   <h5 className="text-xs uppercase tracking-[0.2em] text-stone-600 dark:text-stone-400 mb-4 font-medium">
-                    Estimated Investment Summary
+                    Stay Reservation Summary
                   </h5>
 
                   <div className="space-y-2.5 text-xs">
-                    <div className="flex justify-between text-stone-700 dark:text-stone-300">
-                      <span>
-                        ₹{currentVilla.pricePerNight.toLocaleString()} × {nights} {nights === 1 ? 'Night' : 'Nights'}
-                      </span>
-                      <span className="font-mono text-stone-900 dark:text-stone-200 font-medium">₹{basePrice.toLocaleString()}</span>
+                    <div className="flex justify-between gap-4 text-stone-700 dark:text-stone-300">
+                      <span>Residence</span>
+                      <span className="text-stone-900 dark:text-stone-200 font-medium text-right">{currentVilla.name}</span>
                     </div>
 
-                    {addOnTotal > 0 && (
-                      <div className="flex justify-between text-stone-700 dark:text-stone-300">
-                        <span>Selected Bespoke Inclusions</span>
-                        <span className="font-mono text-stone-900 dark:text-stone-200 font-medium">+₹{addOnTotal.toLocaleString()}</span>
+                    <div className="flex justify-between gap-4 text-stone-700 dark:text-stone-300">
+                      <span>Duration</span>
+                      <span className="text-stone-900 dark:text-stone-200 font-medium">
+                        {nights} {nights === 1 ? 'Night' : 'Nights'}
+                      </span>
+                    </div>
+
+                    <div className="flex justify-between gap-4 text-stone-700 dark:text-stone-300">
+                      <span>Party Size</span>
+                      <span className="text-stone-900 dark:text-stone-200 font-medium">
+                        {guests} {guests === 1 ? 'Guest' : 'Guests'}
+                      </span>
+                    </div>
+
+                    {selectedEnhancements.length > 0 && (
+                      <div className="pt-2 border-t border-stone-200 dark:border-stone-800">
+                        <span className="block text-[11px] text-stone-500 dark:text-stone-400 mb-1.5">
+                          Selected Enhancements:
+                        </span>
+                        <ul className="space-y-1 text-[11px] text-stone-800 dark:text-stone-200">
+                          {selectedEnhancements.map((item) => (
+                            <li key={item}>· {item}</li>
+                          ))}
+                        </ul>
                       </div>
                     )}
-
-                    <div className="flex justify-between text-stone-500 dark:text-stone-400 text-[11px]">
-                      <span>Alpine Forest Conservation (3%)</span>
-                      <span className="font-mono">₹{conservationLevy.toLocaleString()}</span>
-                    </div>
-
-                    <div className="pt-3 border-t border-stone-200 dark:border-stone-800 flex justify-between items-baseline">
-                      <span className="text-stone-900 dark:text-stone-200 text-sm font-semibold">Total Balance</span>
-                      <span className="text-amber-800 dark:text-amber-200 font-mono text-xl font-bold">
-                        ₹{totalPrice.toLocaleString()}
-                      </span>
-                    </div>
                   </div>
 
                   <div className="mt-6 pt-4 border-t border-stone-200 dark:border-stone-800 space-y-2 text-[11px] text-stone-600 dark:text-stone-400">
@@ -587,7 +548,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                     <span>Back to Resort</span>
                   </button>
                   <p className="text-center text-[10px] text-stone-500 dark:text-stone-400 mt-1">
-                    Direct confirmation · Instant guarantee · Zero booking fees
+                    Direct confirmation · Personal concierge coordination
                   </p>
                 </div>
               </div>

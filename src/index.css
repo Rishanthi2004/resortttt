@@ -1,10 +1,15 @@
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
 
+@theme {
+  --font-serif: 'Poppins', 'Inter', system-ui, -apple-system, sans-serif;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
 @layer base {
   :root {
-    --font-serif: 'Cormorant Garamond', Georgia, serif;
-    --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --font-serif: 'Poppins', 'Inter', system-ui, -apple-system, sans-serif;
+    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   }
   
   html {
@@ -14,11 +19,11 @@
 }
 
 .font-serif-luxury {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: 'Poppins', 'Inter', system-ui, -apple-system, sans-serif;
 }
 
 .font-sans-luxury {
-  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
 /* Subtle luxury atmospheric fog overlay */

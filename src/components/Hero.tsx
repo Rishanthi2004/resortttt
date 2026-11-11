@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowUpRight, Sun } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import { motion, useReducedMotion } from 'motion/react';
 import { RESORT_DATA } from '../data/resortData';
 import { useScrollSectionVisible } from './ScrollSection';
@@ -38,8 +38,8 @@ export const Hero: React.FC<HeroProps> = ({ onExploreVillas, onOpenBooking, onNa
       {/* Real High-Resolution Photographic Background with slow cinematic Ken Burns drift */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <motion.img
-          src={RESORT_DATA.userImages.teaValleyTrail}
-          alt="Sun-drenched morning trails through emerald tea hills"
+          src={RESORT_DATA.userImages.heroHillsideRetreat}
+          alt="Hillside terracotta-roofed resort cottages and stone garden pathways overlooking a misty mountain valley"
           referrerPolicy="no-referrer"
           animate={
             shouldReduceMotion
@@ -55,21 +55,13 @@ export const Hero: React.FC<HeroProps> = ({ onExploreVillas, onOpenBooking, onNa
         />
 
         {/* Minimal soft gradient overlay keeping the photography sunny and bright */}
-        <div className="absolute inset-0 bg-gradient-to-t from-stone-950/50 via-transparent to-stone-950/25 pointer-events-none" />
-        <div className="absolute inset-0 bg-black/10 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-stone-950/55 via-black/15 to-stone-950/30 pointer-events-none" />
+        <div className="absolute inset-0 bg-black/15 pointer-events-none" />
       </div>
 
       {/* Main Headline & Centered Actions */}
       <div className="relative z-10 max-w-5xl mx-auto px-6 md:px-10 w-full text-center py-16 md:py-24">
         <div className="max-w-3xl mx-auto">
-          <motion.div
-            {...reveal(0.06, 16)}
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/25 backdrop-blur-md border border-white/25 text-amber-200 text-xs tracking-[0.25em] uppercase font-sans font-medium mb-5 shadow-sm"
-          >
-            <Sun className="w-3.5 h-3.5 text-amber-300" />
-            <span>Highland Valley & Mountain Retreat</span>
-          </motion.div>
-
           <motion.h1
             initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 28, filter: 'blur(6px)' }}
             animate={
@@ -84,14 +76,14 @@ export const Hero: React.FC<HeroProps> = ({ onExploreVillas, onOpenBooking, onNa
               delay: isVisible && !shouldReduceMotion ? 0.16 : 0,
               ease: LUXURY_EASE,
             }}
-            className="text-4xl sm:text-6xl md:text-7xl font-serif-luxury font-light text-white leading-[1.08] tracking-tight drop-shadow-[0_4px_12px_rgba(0,0,0,0.65)] text-balance"
+            className="text-3xl sm:text-5xl md:text-6xl font-serif-luxury font-medium text-white leading-[1.12] tracking-tight drop-shadow-[0_4px_12px_rgba(0,0,0,0.65)] text-balance"
           >
             A Haven Above The Clouds.
           </motion.h1>
 
           <motion.p
             {...reveal(0.28, 22)}
-            className="mt-5 text-base md:text-xl text-stone-100 font-light leading-relaxed font-sans max-w-2xl mx-auto drop-shadow-[0_2px_8px_rgba(0,0,0,0.7)]"
+            className="mt-5 text-base md:text-xl text-stone-100 font-normal leading-relaxed font-sans max-w-2xl mx-auto drop-shadow-[0_2px_8px_rgba(0,0,0,0.7)]"
           >
             Sunlit cantilevered villas, misty tea hills, and thermal mountain springs crafted in pure harmony with nature.
           </motion.p>

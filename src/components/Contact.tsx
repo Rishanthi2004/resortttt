@@ -52,7 +52,7 @@ export const Contact: React.FC = () => {
               <p className="text-xs tracking-[0.25em] uppercase text-amber-700 dark:text-amber-300/80 font-medium mb-2">
                 Concierge & Inquiries
               </p>
-              <h2 className="text-3xl md:text-4xl font-serif-luxury text-stone-900 dark:text-stone-100 font-light tracking-tight">
+              <h2 className="text-3xl md:text-4xl font-serif-luxury text-stone-900 dark:text-stone-100 font-normal tracking-tight">
                 Connect With Us
               </h2>
               <p className="mt-3 text-xs md:text-sm text-stone-600 dark:text-stone-400 font-light leading-relaxed">

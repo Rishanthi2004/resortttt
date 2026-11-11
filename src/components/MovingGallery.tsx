@@ -49,7 +49,7 @@ export const MovingGallery: React.FC = () => {
           <p className="text-xs tracking-[0.25em] uppercase text-amber-700 dark:text-amber-300/80 font-medium mb-1.5 sm:mb-2">
             Visual Expedition
           </p>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif-luxury text-stone-900 dark:text-stone-100 font-light tracking-tight">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif-luxury text-stone-900 dark:text-stone-100 font-normal tracking-tight">
             Moving Gallery
           </h2>
           <p className="mt-1.5 sm:mt-2 text-[11px] sm:text-xs text-stone-600 dark:text-stone-400 font-light">
