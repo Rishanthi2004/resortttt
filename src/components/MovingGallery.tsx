@@ -29,8 +29,8 @@ export const MovingGallery: React.FC = () => {
   const marqueePhotos = [...photos, ...photos];
 
   return (
-    <section id="gallery" className="py-12 sm:py-16 md:py-28 bg-[#F5F2EB] dark:bg-stone-900/60 border-t border-stone-200 dark:border-stone-800/80 relative overflow-hidden transition-colors">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-10 mb-6 sm:mb-8 md:mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-3 sm:gap-4">
+    <section id="gallery" className="py-12 sm:py-14 md:py-20 bg-[#F5F2EB] dark:bg-stone-900/60 border-t border-stone-200 dark:border-stone-800/80 relative overflow-hidden transition-colors">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-10 mb-6 sm:mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-3 sm:gap-4">
         <motion.div
           initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, x: -28 }}
           animate={
@@ -53,7 +53,7 @@ export const MovingGallery: React.FC = () => {
             Moving Gallery
           </h2>
           <p className="mt-1.5 sm:mt-2 text-[11px] sm:text-xs text-stone-600 dark:text-stone-400 font-light">
-            Real photography from the resort estate, tea terraces, and mountain valleys.
+            Estate grounds, tea slopes, and mountain vistas.
           </p>
         </motion.div>
 
@@ -148,7 +148,7 @@ export const MovingGallery: React.FC = () => {
         transition={{ duration: 0.5, delay: isVisible ? 0.28 : 0 }}
         className="text-center text-[10px] sm:text-[11px] text-stone-500 dark:text-stone-400 mt-4 sm:mt-6 px-4 tracking-wider uppercase font-sans"
       >
-        Real Photography · Hover to Pause · Click any image to view in full resolution
+        Hover to pause · Click any photo to expand
       </motion.p>
 
       {/* Animated Lightbox Modal */}

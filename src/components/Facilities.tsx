@@ -32,121 +32,81 @@ const FACILITIES_LIST: FacilityItem[] = [
   {
     number: '01',
     category: 'Luxury Accommodation',
-    title: 'Hillside Villas & Private Balconies',
-    description:
-      'Spacious whitewashed mountain villas nestled into lush tea-hill slopes, featuring private balconies and panoramic ridge vistas.',
+    title: 'Hillside Villas & Suites',
+    description: 'Whitewashed mountain villas with private balconies overlooking lush tea slopes.',
     image: RESORT_DATA.userImages.hillsideTwinVillas,
     imageAlt: 'White hillside resort villas with terracotta roof accents nestled on green tea slopes',
-    highlights: [
-      'Private valley-facing balconies & terraces',
-      'Secluded multi-suite hillside residences',
-      'Dedicated 24-hour sanctuary butler care',
-    ],
+    highlights: ['Private valley balconies', '24-hour butler care'],
     actionLabel: 'Reserve Villa',
   },
   {
     number: '02',
     category: 'Timber Bungalows',
-    title: 'Cliffside Thatched Deck Cottages',
-    description:
-      'Handcrafted timber bungalows with raised wooden decks overlooking dramatic limestone peaks and tropical mountain greenery.',
+    title: 'Cliffside Timber Deck Cottages',
+    description: 'Thatched wooden bungalows with raised decks facing dramatic mountain peaks.',
     image: RESORT_DATA.userImages.cliffTimberBungalow,
     imageAlt: 'Thatched timber bungalow with wooden balcony deck overlooking emerald mountain cliffs',
-    highlights: [
-      'Elevated timber decks with mountain views',
-      'Natural thatched roofs & warm wood interiors',
-      'Quiet hillside spacing for total privacy',
-    ],
+    highlights: ['Elevated timber decks', 'Private hillside spacing'],
     actionLabel: 'Explore Bungalow',
   },
   {
     number: '03',
     category: 'Dining & 24/7 Care',
-    title: 'Estate Manor, Café Terrace & Concierge',
-    description:
-      'Dine beneath shaded outdoor terrace umbrellas at our main colonial manor while our 24/7 concierge coordinates every request.',
+    title: 'Estate Manor & Concierge',
+    description: 'Outdoor café terrace dining at our main manor with 24/7 guest assistance.',
     image: RESORT_DATA.userImages.colonialManorEstate,
     imageAlt: 'Colonial resort manor with manicured green lawns, outdoor café terrace, and misty forest backdrop',
-    highlights: [
-      'All-day dining & tea at the manor terrace',
-      '24/7 private concierge & guest assistance',
-      'Chauffeured estate transport & arrival support',
-    ],
+    highlights: ['All-day terrace dining', '24/7 private concierge'],
     actionLabel: 'Reserve Dining',
   },
   {
     number: '04',
     category: 'Garden & Greenery',
-    title: 'Terraced Hill Gardens & Stone Walkways',
-    description:
-      'Stroll curved stone staircases, natural rock cascades, and sunlit terraced lawns linking each hillside cottage across our lush grounds.',
+    title: 'Terraced Gardens & Walkways',
+    description: 'Curved stone staircases and lush terraced lawns connecting each cottage.',
     image: RESORT_DATA.userImages.heroHillsideRetreat,
     imageAlt: 'Hillside terracotta cottages connected by curved garden walls and stepped stone walkways',
-    highlights: [
-      '320 hectares of mountain estate & gardens',
-      'Stepped stone garden paths & rock cascades',
-      'Terraced hillside viewpoints above the valley',
-    ],
+    highlights: ['320-hectare mountain estate', 'Stepped garden cascades'],
     actionLabel: 'Discover Grounds',
   },
   {
     number: '05',
     category: 'Outdoor Activities',
-    title: 'Sunlit Tea Valley Trails & Expeditions',
-    description:
-      'Explore winding morning dirt trails through emerald tea plantations, guided forest walks, and scenic highland ridge viewpoints.',
+    title: 'Tea Valley Trails & Treks',
+    description: 'Morning walks along winding emerald tea trails and scenic ridge paths.',
     image: RESORT_DATA.userImages.teaValleyTrail,
     imageAlt: 'Sunlit mountain trail winding through terraced emerald tea hills',
-    highlights: [
-      'Guided morning walks through tea estates',
-      'Naturalist-led mountain & canopy treks',
-      'Panoramic valley & lake excursions',
-    ],
+    highlights: ['Guided tea-estate walks', 'Valley & lake treks'],
     actionLabel: 'Plan Expedition',
   },
   {
     number: '06',
     category: 'Campfire Area',
-    title: 'Ridge Firepit Courtyard & Recreation',
-    description:
-      'Gather at dusk around our sunken stone firepit courtyard overlooking the valley peaks, with adjacent outdoor recreation lawns.',
+    title: 'Ridge Firepit & Recreation',
+    description: 'Sunken stone firepit courtyard and outdoor court overlooking the valley.',
     image: RESORT_DATA.userImages.mountainRidgeGrounds,
     imageAlt: 'Mountain ridge resort grounds with stone firepit seating courtyard and outdoor court',
-    highlights: [
-      'Circular stone firepit seating overlooking the valley',
-      'Outdoor ridge recreation & basketball court',
-      'Evening fireside gatherings beneath clear skies',
-    ],
+    highlights: ['Stone firepit seating', 'Outdoor ridge court'],
     actionLabel: 'Arrange Evening',
   },
   {
     number: '07',
     category: 'Tea Estate Retreat',
-    title: 'Misty Tea Plantation Pavilion',
-    description:
-      'Unwind on the elevated veranda of our cloud-line tea plantation retreat, sipping estate-grown infusions as valley mist drifts past.',
+    title: 'Misty Tea Pavilion',
+    description: 'High-altitude tasting veranda surrounded by terraced tea hills in morning mist.',
     image: RESORT_DATA.userImages.mistyChalet,
     imageAlt: 'Hillside tea plantation cottage surrounded by misty terraced tea fields',
-    highlights: [
-      'High-altitude tea tasting & viewing deck',
-      'Surrounded by living terraced tea slopes',
-      'Peaceful sunrise & mist-inversion vistas',
-    ],
+    highlights: ['Estate tea tastings', 'Sunrise mist views'],
     actionLabel: 'Reserve Retreat',
   },
   {
     number: '08',
     category: 'Forest Chalets',
-    title: 'Stone Cottages & Manicured Lawns',
-    description:
-      'Stay in handcrafted stone chalets framed by sculpted evergreen hedges, shaded garden seating, and pine-covered mountain slopes.',
+    title: 'Stone Cottages & Lawns',
+    description: 'Handcrafted stone chalets framed by sculpted hedges and quiet pine trails.',
     image: RESORT_DATA.userImages.stoneCottage,
     imageAlt: 'Stone resort cottage with red roof, trimmed hedges, and outdoor garden seating',
-    highlights: [
-      'Handcrafted stone masonry & private porches',
-      'Manicured hedges & shaded garden lawns',
-      'Direct access to quiet pine ridge trails',
-    ],
+    highlights: ['Private garden porches', 'Pine ridge trail access'],
     actionLabel: 'Explore Chalet',
   },
 ];
@@ -241,13 +201,13 @@ const FacilityShowcaseRow: React.FC<FacilityRowProps> = ({
           {facility.description}
         </p>
 
-        <ul className="space-y-1.5 pt-2.5 border-t border-stone-200 dark:border-stone-800/80">
+        <ul className="flex flex-wrap gap-x-5 gap-y-1.5 pt-2.5 border-t border-stone-200 dark:border-stone-800/80">
           {facility.highlights.map((highlight) => (
             <li
               key={highlight}
-              className="flex items-start gap-2 text-xs text-stone-700 dark:text-stone-300"
+              className="flex items-center gap-1.5 text-xs text-stone-700 dark:text-stone-300"
             >
-              <Check className="w-3.5 h-3.5 text-amber-700 dark:text-amber-300 shrink-0 mt-0.5" />
+              <Check className="w-3.5 h-3.5 text-amber-700 dark:text-amber-300 shrink-0" />
               <span>{highlight}</span>
             </li>
           ))}
@@ -327,7 +287,7 @@ export const Facilities: React.FC<FacilitiesProps> = ({ onOpenBooking }) => {
             Curated For Serenity
           </h2>
           <p className="mt-2 text-xs sm:text-sm text-stone-600 dark:text-stone-400 font-light leading-relaxed">
-            Explore our sanctuary amenities two at a time—from hillside villas and manicured gardens to tea valley trails and ridge firepits.
+            Hillside villas, stone gardens, tea trails, and ridge firepits.
           </p>
         </motion.div>
 

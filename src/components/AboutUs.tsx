@@ -50,8 +50,8 @@ export const AboutUs: React.FC = () => {
   ];
 
   return (
-    <section id="about" className="pt-20 md:pt-28 bg-[#F5F2EB] dark:bg-stone-900/60 border-t border-stone-200 dark:border-stone-800/80 transition-colors overflow-hidden">
-      <div className="max-w-6xl mx-auto px-6 md:px-10 pb-14 md:pb-20">
+    <section id="about" className="pt-14 md:pt-20 bg-[#F5F2EB] dark:bg-stone-900/60 border-t border-stone-200 dark:border-stone-800/80 transition-colors overflow-hidden">
+      <div className="max-w-6xl mx-auto px-6 md:px-10 pb-10 md:pb-14">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           {/* Real Photographic Showcase with Editorial Left Glide & Crossfade Switcher */}
           <motion.div
@@ -130,7 +130,7 @@ export const AboutUs: React.FC = () => {
           </motion.div>
 
           {/* Simple, Minimalist Narrative with Staggered Editorial Reveal */}
-          <div className="lg:col-span-6 space-y-6">
+          <div className="lg:col-span-6 space-y-5">
             <motion.div
               initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, x: 32 }}
               animate={
@@ -170,30 +170,11 @@ export const AboutUs: React.FC = () => {
               }}
               className="text-sm md:text-base text-stone-700 dark:text-stone-300 font-light leading-relaxed"
             >
-              Immersed in mountain greenery and misty highland tea valleys, Aura is an intimate sanctuary designed in quiet harmony with the natural topography.
-            </motion.p>
-
-            <motion.p
-              initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, x: 28 }}
-              animate={
-                isVisible
-                  ? { opacity: 1, x: 0 }
-                  : shouldReduceMotion
-                    ? { opacity: 0 }
-                    : { opacity: 0, x: 20 }
-              }
-              transition={{
-                duration: shouldReduceMotion ? 0.25 : 0.7,
-                delay: isVisible && !shouldReduceMotion ? 0.3 : 0,
-                ease: LUXURY_EASE,
-              }}
-              className="text-xs md:text-sm text-stone-600 dark:text-stone-400 font-light leading-relaxed"
-            >
-              Every residence is crafted with regional stone and aged timber, positioned to honor natural daylight, morning cloud rivers, and clean mountain air.
+              Nestled among misty tea hills, Aura pairs stone-and-timber architecture with clean mountain air and tranquil valley views.
             </motion.p>
 
             {/* 3 Simple Minimalist Metrics */}
-            <div className="grid grid-cols-3 gap-4 pt-6 border-t border-stone-200 dark:border-stone-800">
+            <div className="grid grid-cols-3 gap-4 pt-5 border-t border-stone-200 dark:border-stone-800">
               {metrics.map((metric, idx) => (
                 <motion.div
                   key={metric.label}

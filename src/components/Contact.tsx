@@ -29,7 +29,7 @@ export const Contact: React.FC = () => {
   ];
 
   return (
-    <section id="contact" className="py-20 md:py-28 bg-[#FAF8F5] dark:bg-stone-950 border-t border-stone-200 dark:border-stone-800/80 transition-colors overflow-hidden">
+    <section id="contact" className="py-14 md:py-20 bg-[#FAF8F5] dark:bg-stone-950 border-t border-stone-200 dark:border-stone-800/80 transition-colors overflow-hidden">
       <div className="max-w-6xl mx-auto px-6 md:px-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           {/* Left Column: Direct Resort Details with Staggered Slide-In */}
@@ -55,8 +55,8 @@ export const Contact: React.FC = () => {
               <h2 className="text-3xl md:text-4xl font-serif-luxury text-stone-900 dark:text-stone-100 font-normal tracking-tight">
                 Connect With Us
               </h2>
-              <p className="mt-3 text-xs md:text-sm text-stone-600 dark:text-stone-400 font-light leading-relaxed">
-                Our private concierge is available 24/7 to assist with villa reservations, helicopter arrivals, and bespoke requests.
+              <p className="mt-2.5 text-xs md:text-sm text-stone-600 dark:text-stone-400 font-light leading-relaxed">
+                24/7 private concierge for stay bookings and arrival assistance.
               </p>
             </motion.div>
 
@@ -193,10 +193,10 @@ export const Contact: React.FC = () => {
                       Message or Special Requests
                     </label>
                     <textarea
-                      rows={4}
+                      rows={3}
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
-                      placeholder="Inquire about dates, private helicopter transfer, dietary needs, or bespoke stay arrangements."
+                      placeholder="Preferred dates or special requests."
                       className="w-full bg-stone-50 dark:bg-stone-950 border border-stone-300 dark:border-stone-700 text-stone-900 dark:text-stone-200 text-xs py-2 px-3 focus:outline-none focus:border-amber-600 dark:focus:border-amber-300 rounded-none transition-colors"
                     />
                   </div>

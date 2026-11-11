@@ -83,14 +83,14 @@ export const Hero: React.FC<HeroProps> = ({ onExploreVillas, onOpenBooking, onNa
 
           <motion.p
             {...reveal(0.28, 22)}
-            className="mt-5 text-base md:text-xl text-stone-100 font-normal leading-relaxed font-sans max-w-2xl mx-auto drop-shadow-[0_2px_8px_rgba(0,0,0,0.7)]"
+            className="mt-4 text-base md:text-lg text-stone-100 font-normal leading-relaxed font-sans max-w-xl mx-auto drop-shadow-[0_2px_8px_rgba(0,0,0,0.7)]"
           >
-            Sunlit cantilevered villas, misty tea hills, and thermal mountain springs crafted in pure harmony with nature.
+            Hillside cottages, misty tea valleys, and tranquil mountain air.
           </motion.p>
 
           <motion.div
             {...reveal(0.4, 20)}
-            className="mt-8 flex flex-wrap items-center justify-center gap-4"
+            className="mt-7 flex flex-wrap items-center justify-center gap-4"
           >
             <motion.button
               whileHover={shouldReduceMotion ? undefined : { y: -2, scale: 1.03 }}
@@ -110,15 +110,6 @@ export const Hero: React.FC<HeroProps> = ({ onExploreVillas, onOpenBooking, onNa
               className="px-7 py-3.5 border border-white/80 hover:border-white text-white hover:bg-white/20 text-xs tracking-[0.2em] uppercase transition-colors backdrop-blur-md bg-black/25 shadow-lg cursor-pointer"
             >
               Explore Facilities
-            </motion.button>
-            <motion.button
-              whileHover={shouldReduceMotion ? undefined : { y: -2 }}
-              whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
-              onClick={onNavigateAbout}
-              type="button"
-              className="px-7 py-3.5 border border-white/60 hover:border-white text-white hover:bg-white/20 text-xs tracking-[0.2em] uppercase transition-colors backdrop-blur-md bg-black/25 shadow-lg cursor-pointer"
-            >
-              About Aura
             </motion.button>
           </motion.div>
         </div>
