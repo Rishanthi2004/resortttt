@@ -84,9 +84,9 @@ export const AboutUs: React.FC = () => {
                     src={activePhoto.url}
                     alt={activePhoto.title}
                     referrerPolicy="no-referrer"
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    className="w-full h-full object-cover contrast-[1.03] saturate-[1.04] transition-transform duration-700 group-hover:scale-105"
                   />
-                  <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-stone-950/85 via-stone-950/35 to-transparent p-4 text-white">
+                  <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-stone-950/75 via-stone-950/25 to-transparent p-4 text-white">
                     <p className="text-xs font-serif-luxury tracking-wide">{activePhoto.title}</p>
                     <p className="text-[11px] text-stone-300 font-light mt-0.5 line-clamp-1">{activePhoto.caption}</p>
                   </div>
@@ -236,7 +236,7 @@ export const AboutUs: React.FC = () => {
                     alt={space.title}
                     loading="lazy"
                     referrerPolicy="no-referrer"
-                    className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+                    className="w-full h-full object-cover object-center contrast-[1.03] saturate-[1.04] transition-transform duration-700 ease-out group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-stone-950/15 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end justify-center p-3 sm:p-5 text-center">
                     <div>

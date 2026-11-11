@@ -112,15 +112,15 @@ export const MovingGallery: React.FC = () => {
             <div
               key={`${photo.id}-${idx}`}
               onClick={() => setLightboxPhoto(photo)}
-              className="relative w-[175px] sm:w-[260px] md:w-[340px] lg:w-[400px] aspect-[4/5] overflow-hidden bg-stone-200 dark:bg-stone-800 border border-stone-300 dark:border-stone-700 cursor-pointer group/card shadow-md hover:shadow-xl dark:shadow-none transition-[transform,box-shadow] duration-500 hover:-translate-y-1.5 shrink-0"
+              className="relative w-[210px] sm:w-[270px] md:w-[320px] lg:w-[360px] aspect-[4/3] overflow-hidden bg-stone-200 dark:bg-stone-800 border border-stone-300 dark:border-stone-700 cursor-pointer group/card shadow-md hover:shadow-xl dark:shadow-none transition-[transform,box-shadow] duration-500 hover:-translate-y-1.5 shrink-0"
             >
               <img
                 src={photo.imageUrl}
                 alt={photo.title}
                 referrerPolicy="no-referrer"
-                className="w-full h-full object-cover object-center transition-transform duration-700 group-hover/card:scale-105"
+                className="w-full h-full object-cover object-center contrast-[1.03] saturate-[1.04] transition-transform duration-700 group-hover/card:scale-105"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-stone-950/85 via-stone-950/20 to-transparent opacity-75 group-hover/card:opacity-90 transition-opacity" />
+              <div className="absolute inset-0 bg-gradient-to-t from-stone-950/70 via-transparent to-transparent opacity-70 group-hover/card:opacity-85 transition-opacity" />
 
               <div className="absolute top-2 right-2 sm:top-3 sm:right-3 p-1.5 sm:p-2 bg-stone-950/70 border border-white/10 text-stone-200 opacity-0 group-hover/card:opacity-100 transition-opacity backdrop-blur-sm">
                 <Maximize className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-200" />

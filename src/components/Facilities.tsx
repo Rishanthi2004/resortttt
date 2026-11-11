@@ -153,20 +153,20 @@ const FacilityShowcaseRow: React.FC<FacilityRowProps> = ({
         }}
         className={`md:col-span-6 ${isImageLeft ? 'md:order-1' : 'md:order-2'}`}
       >
-        <div className="relative aspect-[16/10] overflow-hidden border border-stone-200 dark:border-stone-800 bg-stone-200 dark:bg-stone-900 shadow-md dark:shadow-none group">
+        <div className="relative aspect-[16/9] overflow-hidden border border-stone-200 dark:border-stone-800 bg-stone-200 dark:bg-stone-900 shadow-md dark:shadow-none group">
           <motion.div
             style={shouldReduceMotion ? undefined : { y: parallaxY }}
-            className="relative w-full h-[116%] -top-[8%] will-change-transform"
+            className="relative w-full h-[106%] -top-[3%]"
           >
             <img
               src={facility.image}
               alt={facility.imageAlt}
               referrerPolicy="no-referrer"
-              className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+              className="w-full h-full object-cover object-center contrast-[1.03] saturate-[1.04] transition-transform duration-700 ease-out group-hover:scale-105"
             />
           </motion.div>
 
-          <div className="absolute inset-0 bg-gradient-to-t from-stone-950/35 via-transparent to-transparent pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-stone-950/20 via-transparent to-transparent pointer-events-none" />
           <div className="absolute top-3 left-3 px-2.5 py-1 bg-stone-950/75 backdrop-blur-md border border-white/15 text-[10px] tracking-[0.22em] uppercase text-amber-200 font-mono">
             {facility.number} · {facility.category}
           </div>
@@ -244,7 +244,7 @@ export const Facilities: React.FC<FacilitiesProps> = ({ onOpenBooking }) => {
     target: sectionRef,
     offset: ['start end', 'end start'],
   });
-  const parallaxY = useTransform(scrollYProgress, [0, 1], ['-5%', '5%']);
+  const parallaxY = useTransform(scrollYProgress, [0, 1], ['-2%', '2%']);
 
   const handleChangePage = (nextPage: number, scrollTop = false) => {
     setCurrentPage(nextPage);

@@ -35,28 +35,17 @@ export const Hero: React.FC<HeroProps> = ({ onExploreVillas, onOpenBooking, onNa
       id="home"
       className="relative min-h-[92vh] flex flex-col justify-center overflow-hidden bg-stone-100 dark:bg-stone-900 pt-24 pb-16 transition-colors"
     >
-      {/* Real High-Resolution Photographic Background with slow cinematic Ken Burns drift */}
+      {/* Real High-Resolution Photographic Background */}
       <div className="absolute inset-0 z-0 overflow-hidden">
-        <motion.img
+        <img
           src={RESORT_DATA.userImages.heroHillsideRetreat}
           alt="Hillside terracotta-roofed resort cottages and stone garden pathways overlooking a misty mountain valley"
           referrerPolicy="no-referrer"
-          animate={
-            shouldReduceMotion
-              ? undefined
-              : { scale: [1.01, 1.08, 1.01] }
-          }
-          transition={
-            shouldReduceMotion
-              ? undefined
-              : { duration: 28, repeat: Infinity, ease: 'easeInOut' }
-          }
-          className="absolute inset-0 w-full h-full object-cover object-center brightness-105 contrast-100 will-change-transform"
+          className="absolute inset-0 w-full h-full object-cover object-center contrast-[1.04] saturate-[1.05]"
         />
 
-        {/* Minimal soft gradient overlay keeping the photography sunny and bright */}
-        <div className="absolute inset-0 bg-gradient-to-t from-stone-950/55 via-black/15 to-stone-950/30 pointer-events-none" />
-        <div className="absolute inset-0 bg-black/15 pointer-events-none" />
+        {/* Light edge-only vignette preserving photo clarity and text legibility */}
+        <div className="absolute inset-0 bg-gradient-to-t from-stone-950/35 via-transparent to-stone-950/25 pointer-events-none" />
       </div>
 
       {/* Main Headline & Centered Actions */}
