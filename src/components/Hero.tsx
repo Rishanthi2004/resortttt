@@ -12,7 +12,7 @@ interface HeroProps {
 
 const LUXURY_EASE = [0.22, 1, 0.36, 1] as const;
 
-export const Hero: React.FC<HeroProps> = ({ onExploreVillas, onOpenBooking, onNavigateAbout }) => {
+export const Hero: React.FC<HeroProps> = ({ onExploreVillas, onOpenBooking }) => {
   const isVisible = useScrollSectionVisible();
   const shouldReduceMotion = useReducedMotion();
 
@@ -103,28 +103,6 @@ export const Hero: React.FC<HeroProps> = ({ onExploreVillas, onOpenBooking, onNa
           </motion.div>
         </div>
       </div>
-
-      {/* Subtle animated scroll indicator */}
-      <motion.button
-        type="button"
-        onClick={onNavigateAbout}
-        aria-label="Scroll to About Us"
-        {...reveal(0.55, 14)}
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 text-stone-200/80 hover:text-amber-200 transition-colors cursor-pointer"
-      >
-        <span className="text-[9px] tracking-[0.35em] uppercase font-mono">Scroll</span>
-        <span className="w-px h-7 bg-white/30 relative overflow-hidden block">
-          <motion.span
-            animate={shouldReduceMotion ? undefined : { y: ['-100%', '100%'] }}
-            transition={
-              shouldReduceMotion
-                ? undefined
-                : { duration: 1.8, repeat: Infinity, ease: 'easeInOut' }
-            }
-            className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-transparent via-amber-200 to-transparent block"
-          />
-        </span>
-      </motion.button>
     </section>
   );
 };
