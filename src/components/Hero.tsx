@@ -38,14 +38,14 @@ export const Hero: React.FC<HeroProps> = ({ onExploreVillas, onOpenBooking, onNa
       {/* Real High-Resolution Photographic Background */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <img
-          src={RESORT_DATA.userImages.heroHillsideRetreat}
-          alt="Hillside terracotta-roofed resort cottages and stone garden pathways overlooking a misty mountain valley"
+          src={RESORT_DATA.userImages.heroPoolPavilion}
+          alt="Brick-and-terracotta resort pavilion overlooking a turquoise swimming pool, lily pond, and lush garden walkway"
           referrerPolicy="no-referrer"
           className="absolute inset-0 w-full h-full object-cover object-center contrast-[1.04] saturate-[1.05]"
         />
 
         {/* Light edge-only vignette preserving photo clarity and text legibility */}
-        <div className="absolute inset-0 bg-gradient-to-t from-stone-950/35 via-transparent to-stone-950/25 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-stone-950/40 via-stone-950/15 to-stone-950/30 pointer-events-none" />
       </div>
 
       {/* Main Headline & Centered Actions */}
