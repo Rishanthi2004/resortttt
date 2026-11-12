@@ -31,27 +31,9 @@ export const AboutUs: React.FC = () => {
     { value: "38.5°C", label: "Thermal Waters" },
   ];
 
-  const archedSpaces = [
-    {
-      image: RESORT_DATA.userImages.heroHillsideRetreat,
-      title: "Terraced Hillside Wing",
-      subtitle: "Stone Walkways & Cottages",
-    },
-    {
-      image: RESORT_DATA.userImages.stoneCottage,
-      title: "Forest Stone Chalet",
-      subtitle: "Pine Slope Sanctuary",
-    },
-    {
-      image: RESORT_DATA.userImages.cliffTimberBungalow,
-      title: "Cliffside Timber Deck",
-      subtitle: "Mountain Ridge Panorama",
-    },
-  ];
-
   return (
-    <section id="about" className="pt-14 md:pt-20 bg-[#F5F2EB] dark:bg-stone-900/60 border-t border-stone-200 dark:border-stone-800/80 transition-colors overflow-hidden">
-      <div className="max-w-6xl mx-auto px-6 md:px-10 pb-10 md:pb-14">
+    <section id="about" className="py-14 md:py-20 bg-[#F5F2EB] dark:bg-stone-900/60 border-t border-stone-200 dark:border-stone-800/80 transition-colors overflow-hidden">
+      <div className="max-w-6xl mx-auto px-6 md:px-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           {/* Real Photographic Showcase with Editorial Left Glide & Crossfade Switcher */}
           <motion.div
@@ -201,56 +183,6 @@ export const AboutUs: React.FC = () => {
                 </motion.div>
               ))}
             </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Three-Arch Architectural Showcase with Two-Tone Light/Dark Split Backdrop */}
-      <div className="relative pt-2 pb-10 sm:pb-14 md:pb-16">
-        <div
-          aria-hidden="true"
-          className="absolute inset-x-0 bottom-0 h-[44%] bg-stone-900 dark:bg-stone-950 border-t border-stone-800/40 pointer-events-none"
-        />
-        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 md:px-10">
-          <div className="grid grid-cols-3 gap-3 sm:gap-6 md:gap-8 items-end">
-            {archedSpaces.map((space, idx) => (
-              <motion.div
-                key={space.title}
-                initial={
-                  shouldReduceMotion
-                    ? { opacity: 0 }
-                    : { opacity: 0, y: 36, scale: 0.94 }
-                }
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{ once: false, amount: 0.2 }}
-                transition={{
-                  duration: shouldReduceMotion ? 0.25 : 0.75,
-                  delay: shouldReduceMotion ? 0 : idx * 0.12,
-                  ease: LUXURY_EASE,
-                }}
-                className="group"
-              >
-                <div className="relative aspect-[5/6] w-full rounded-t-full rounded-b-xl sm:rounded-b-2xl overflow-hidden bg-stone-800 shadow-2xl ring-1 ring-black/10 dark:ring-white/10">
-                  <img
-                    src={space.image}
-                    alt={space.title}
-                    loading="lazy"
-                    referrerPolicy="no-referrer"
-                    className="w-full h-full object-cover object-center contrast-[1.03] saturate-[1.04] transition-transform duration-700 ease-out group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-stone-950/15 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end justify-center p-3 sm:p-5 text-center">
-                    <div>
-                      <p className="text-[10px] sm:text-sm font-serif-luxury text-stone-100 tracking-wide">
-                        {space.title}
-                      </p>
-                      <p className="hidden sm:block text-[10px] text-amber-200/90 uppercase tracking-[0.2em] mt-0.5">
-                        {space.subtitle}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
           </div>
         </div>
       </div>

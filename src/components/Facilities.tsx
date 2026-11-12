@@ -1,402 +1,510 @@
-import React, { useRef, useState } from 'react';
-import { ArrowUpRight, Check, ChevronLeft, ChevronRight } from 'lucide-react';
-import {
-  AnimatePresence,
-  motion,
-  useReducedMotion,
-  useScroll,
-  useTransform,
-  type MotionValue,
-} from 'motion/react';
-import { RESORT_DATA } from '../data/resortData';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
+import { ArrowRight, ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { useScrollSectionVisible } from './ScrollSection';
 
 interface FacilitiesProps {
   onOpenBooking: () => void;
 }
 
-interface FacilityItem {
-  number: string;
-  category: string;
+export interface FacilityCardItem {
+  id: string;
   title: string;
-  description: string;
-  image: string;
-  imageAlt: string;
+  imageUrl: string;
+  imagePosition?: string;
   highlights: string[];
-  actionLabel: string;
 }
 
-const LUXURY_EASE = [0.22, 1, 0.36, 1] as const;
-
-const FACILITIES_LIST: FacilityItem[] = [
+const FACILITY_ITEMS: FacilityCardItem[] = [
   {
-    number: '01',
-    category: 'Luxury Accommodation',
-    title: 'Hillside Villas & Suites',
-    description: 'Whitewashed mountain villas with private balconies overlooking lush tea slopes.',
-    image: RESORT_DATA.userImages.hillsideTwinVillas,
-    imageAlt: 'White hillside resort villas with terracotta roof accents nestled on green tea slopes',
-    highlights: ['Private valley balconies', '24-hour butler care'],
-    actionLabel: 'Reserve Villa',
+    id: 'classic-twin-room',
+    title: 'Classic Twin Room',
+    imageUrl: '/assets/facility-room-01.jpg',
+    imagePosition: 'object-[50%_62%]',
+    highlights: [
+      'Twin Beds',
+      'Air-Conditioning & Ceiling Fan',
+      'Attached Bathroom',
+      'Carved Wooden Lounge Chair',
+      'Warm Brick Accent Interior',
+    ],
   },
   {
-    number: '02',
-    category: 'Timber Bungalows',
-    title: 'Cliffside Timber Deck Cottages',
-    description: 'Thatched wooden bungalows with raised decks facing dramatic mountain peaks.',
-    image: RESORT_DATA.userImages.cliffTimberBungalow,
-    imageAlt: 'Thatched timber bungalow with wooden balcony deck overlooking emerald mountain cliffs',
-    highlights: ['Elevated timber decks', 'Private hillside spacing'],
-    actionLabel: 'Explore Bungalow',
+    id: 'family-double-suite',
+    title: 'Spacious Family Twin',
+    imageUrl: '/assets/facility-room-02.jpg',
+    imagePosition: 'object-[50%_68%]',
+    highlights: [
+      'Two Double Beds',
+      'Spacious Family Suite Layout',
+      'Wooden Wardrobe & Vanity Desk',
+      'Attached Bathroom',
+      'Warm Recessed Lighting',
+    ],
   },
   {
-    number: '03',
-    category: 'Dining & 24/7 Care',
-    title: 'Estate Manor & Concierge',
-    description: 'Outdoor café terrace dining at our main manor with 24/7 guest assistance.',
-    image: RESORT_DATA.userImages.colonialManorEstate,
-    imageAlt: 'Colonial resort manor with manicured green lawns, outdoor café terrace, and misty forest backdrop',
-    highlights: ['All-day terrace dining', '24/7 private concierge'],
-    actionLabel: 'Reserve Dining',
+    id: 'balcony-garden-twin',
+    title: 'Balcony Garden Twin',
+    imageUrl: '/assets/facility-room-03.jpg',
+    imagePosition: 'object-[50%_64%]',
+    highlights: [
+      'Twin Platform Beds',
+      'Private Garden Balcony',
+      'Outdoor Seating Area',
+      'Floor-to-Ceiling Glass View',
+      'Cove Lighting & Ceiling Fan',
+    ],
   },
   {
-    number: '04',
-    category: 'Garden & Greenery',
-    title: 'Terraced Gardens & Walkways',
-    description: 'Curved stone staircases and lush terraced lawns connecting each cottage.',
-    image: RESORT_DATA.userImages.heroHillsideRetreat,
-    imageAlt: 'Hillside terracotta cottages connected by curved garden walls and stepped stone walkways',
-    highlights: ['320-hectare mountain estate', 'Stepped garden cascades'],
-    actionLabel: 'Discover Grounds',
+    id: 'garden-veranda-suite',
+    title: 'Garden Veranda Suite',
+    imageUrl: '/assets/facility-room-04.jpg',
+    imagePosition: 'object-[50%_65%]',
+    highlights: [
+      'King Bed',
+      'Upholstered Sofa Lounge',
+      'Private Garden Veranda',
+      'Fluted Timber Feature Wall',
+      'Ceiling Fan & Ambient Lighting',
+    ],
   },
   {
-    number: '05',
-    category: 'Outdoor Activities',
-    title: 'Tea Valley Trails & Treks',
-    description: 'Morning walks along winding emerald tea trails and scenic ridge paths.',
-    image: RESORT_DATA.userImages.teaValleyTrail,
-    imageAlt: 'Sunlit mountain trail winding through terraced emerald tea hills',
-    highlights: ['Guided tea-estate walks', 'Valley & lake treks'],
-    actionLabel: 'Plan Expedition',
+    id: 'standard-comfort-queen',
+    title: 'Standard Comfort Queen',
+    imageUrl: '/assets/facility-room-05.jpg',
+    imagePosition: 'object-[50%_66%]',
+    highlights: [
+      'Queen Double Bed',
+      'Air-Conditioning',
+      'Electric Kettle & Drinking Water',
+      'Intercom Telephone',
+      'Full Blackout Curtains',
+    ],
   },
   {
-    number: '06',
-    category: 'Campfire Area',
-    title: 'Ridge Firepit & Recreation',
-    description: 'Sunken stone firepit courtyard and outdoor court overlooking the valley.',
-    image: RESORT_DATA.userImages.mountainRidgeGrounds,
-    imageAlt: 'Mountain ridge resort grounds with stone firepit seating courtyard and outdoor court',
-    highlights: ['Stone firepit seating', 'Outdoor ridge court'],
-    actionLabel: 'Arrange Evening',
+    id: 'palm-view-timber-twin',
+    title: 'Palm View Timber Twin',
+    imageUrl: '/assets/facility-room-06.jpg',
+    imagePosition: 'object-[50%_58%]',
+    highlights: [
+      'Twin Beds',
+      'Vaulted Timber-Beam Ceiling',
+      'Flat-Screen TV',
+      'Rattan Pendant Lighting',
+      'Panoramic Palm-Grove Views',
+    ],
   },
   {
-    number: '07',
-    category: 'Tea Estate Retreat',
-    title: 'Misty Tea Pavilion',
-    description: 'High-altitude tasting veranda surrounded by terraced tea hills in morning mist.',
-    image: RESORT_DATA.userImages.mistyChalet,
-    imageAlt: 'Hillside tea plantation cottage surrounded by misty terraced tea fields',
-    highlights: ['Estate tea tastings', 'Sunrise mist views'],
-    actionLabel: 'Reserve Retreat',
-  },
-  {
-    number: '08',
-    category: 'Forest Chalets',
-    title: 'Stone Cottages & Lawns',
-    description: 'Handcrafted stone chalets framed by sculpted hedges and quiet pine trails.',
-    image: RESORT_DATA.userImages.stoneCottage,
-    imageAlt: 'Stone resort cottage with red roof, trimmed hedges, and outdoor garden seating',
-    highlights: ['Private garden porches', 'Pine ridge trail access'],
-    actionLabel: 'Explore Chalet',
+    id: 'tropical-terrace-king',
+    title: 'Tropical Terrace King',
+    imageUrl: '/assets/facility-room-07.jpg',
+    imagePosition: 'object-[50%_65%]',
+    highlights: [
+      'King Bed',
+      'Private Balcony Terrace',
+      'Two Lounge Armchairs & Desk',
+      'Flat-Screen TV',
+      'Window Reading Nook',
+    ],
   },
 ];
-
-const FACILITY_PAGES = [
-  { label: '01 · Villas & Bungalows' },
-  { label: '02 · Dining & Gardens' },
-  { label: '03 · Trails & Campfire' },
-  { label: '04 · Chalets & Mist' },
-];
-
-const ITEMS_PER_PAGE = 2;
-
-interface FacilityRowProps {
-  facility: FacilityItem;
-  index: number;
-  parallaxY: MotionValue<string>;
-  onOpenBooking: () => void;
-}
-
-const FacilityShowcaseRow: React.FC<FacilityRowProps> = ({
-  facility,
-  index,
-  parallaxY,
-  onOpenBooking,
-}) => {
-  const shouldReduceMotion = useReducedMotion();
-  const isImageLeft = index % 2 === 0;
-
-  return (
-    <article className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-10 items-center">
-      {/* Large Parallax Image Frame (Vertical on mobile, alternating left/right on tablet & desktop) */}
-      <motion.div
-        initial={
-          shouldReduceMotion
-            ? { opacity: 0 }
-            : { opacity: 0, x: isImageLeft ? -28 : 28, scale: 0.97 }
-        }
-        animate={{ opacity: 1, x: 0, scale: 1 }}
-        transition={{
-          duration: shouldReduceMotion ? 0.2 : 0.6,
-          delay: shouldReduceMotion ? 0 : index * 0.1,
-          ease: LUXURY_EASE,
-        }}
-        className={`md:col-span-6 ${isImageLeft ? 'md:order-1' : 'md:order-2'}`}
-      >
-        <div className="relative aspect-[16/9] overflow-hidden border border-stone-200 dark:border-stone-800 bg-stone-200 dark:bg-stone-900 shadow-md dark:shadow-none group">
-          <motion.div
-            style={shouldReduceMotion ? undefined : { y: parallaxY }}
-            className="relative w-full h-[106%] -top-[3%]"
-          >
-            <img
-              src={facility.image}
-              alt={facility.imageAlt}
-              referrerPolicy="no-referrer"
-              className="w-full h-full object-cover object-center contrast-[1.03] saturate-[1.04] transition-transform duration-700 ease-out group-hover:scale-105"
-            />
-          </motion.div>
-
-          <div className="absolute inset-0 bg-gradient-to-t from-stone-950/20 via-transparent to-transparent pointer-events-none" />
-          <div className="absolute top-3 left-3 px-2.5 py-1 bg-stone-950/75 backdrop-blur-md border border-white/15 text-[10px] tracking-[0.22em] uppercase text-amber-200 font-mono">
-            {facility.number} · {facility.category}
-          </div>
-        </div>
-      </motion.div>
-
-      {/* Editorial Facility Copy */}
-      <motion.div
-        initial={
-          shouldReduceMotion
-            ? { opacity: 0 }
-            : { opacity: 0, x: isImageLeft ? 24 : -24, y: 10 }
-        }
-        animate={{ opacity: 1, x: 0, y: 0 }}
-        transition={{
-          duration: shouldReduceMotion ? 0.2 : 0.6,
-          delay: shouldReduceMotion ? 0 : 0.08 + index * 0.1,
-          ease: LUXURY_EASE,
-        }}
-        className={`md:col-span-6 space-y-3.5 ${isImageLeft ? 'md:order-2' : 'md:order-1'}`}
-      >
-        <div>
-          <p className="text-[10px] tracking-[0.25em] uppercase text-amber-700 dark:text-amber-300/80 font-medium mb-1">
-            {facility.category}
-          </p>
-          <h3 className="text-xl sm:text-2xl md:text-3xl font-serif-luxury text-stone-900 dark:text-stone-100 font-normal tracking-tight leading-snug">
-            {facility.title}
-          </h3>
-        </div>
-
-        <p className="text-xs sm:text-sm text-stone-600 dark:text-stone-300 font-light leading-relaxed">
-          {facility.description}
-        </p>
-
-        <ul className="flex flex-wrap gap-x-5 gap-y-1.5 pt-2.5 border-t border-stone-200 dark:border-stone-800/80">
-          {facility.highlights.map((highlight) => (
-            <li
-              key={highlight}
-              className="flex items-center gap-1.5 text-xs text-stone-700 dark:text-stone-300"
-            >
-              <Check className="w-3.5 h-3.5 text-amber-700 dark:text-amber-300 shrink-0" />
-              <span>{highlight}</span>
-            </li>
-          ))}
-        </ul>
-
-        <div className="pt-1">
-          <button
-            onClick={onOpenBooking}
-            type="button"
-            className="inline-flex items-center gap-1.5 text-xs tracking-[0.2em] uppercase font-medium text-amber-800 dark:text-amber-200 hover:text-stone-950 dark:hover:text-white transition-colors cursor-pointer group/btn"
-          >
-            <span>{facility.actionLabel}</span>
-            <ArrowUpRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
-          </button>
-        </div>
-      </motion.div>
-    </article>
-  );
-};
 
 export const Facilities: React.FC<FacilitiesProps> = ({ onOpenBooking }) => {
-  const [currentPage, setCurrentPage] = useState(0);
-  const sectionRef = useRef<HTMLElement>(null);
-  const isVisible = useScrollSectionVisible();
-  const shouldReduceMotion = useReducedMotion();
+  const prefersReducedMotion = useReducedMotion();
+  const isSectionVisible = useScrollSectionVisible();
+  const trackRef = useRef<HTMLDivElement>(null);
+  const modalTouchStartX = useRef<number | null>(null);
 
-  const totalPages = Math.ceil(FACILITIES_LIST.length / ITEMS_PER_PAGE);
-  const visibleFacilities = FACILITIES_LIST.slice(
-    currentPage * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE + ITEMS_PER_PAGE
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [canScrollPrev, setCanScrollPrev] = useState(false);
+  const [canScrollNext, setCanScrollNext] = useState(true);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+
+  const selectedFacility = selectedIndex !== null ? FACILITY_ITEMS[selectedIndex] : null;
+
+  const updateScrollState = useCallback(() => {
+    const el = trackRef.current;
+    if (!el) return;
+
+    const maxScrollLeft = el.scrollWidth - el.clientWidth;
+    setCanScrollPrev(el.scrollLeft > 4);
+    setCanScrollNext(el.scrollLeft < maxScrollLeft - 4);
+
+    const children = Array.from(el.children) as HTMLElement[];
+    if (children.length === 0) return;
+
+    let closestIdx = 0;
+    let smallestDiff = Infinity;
+    for (let i = 0; i < children.length; i += 1) {
+      const diff = Math.abs(children[i].offsetLeft - el.scrollLeft);
+      if (diff < smallestDiff) {
+        smallestDiff = diff;
+        closestIdx = i;
+      }
+    }
+    setActiveIndex(closestIdx);
+  }, []);
+
+  useEffect(() => {
+    updateScrollState();
+    window.addEventListener('resize', updateScrollState);
+    return () => window.removeEventListener('resize', updateScrollState);
+  }, [updateScrollState]);
+
+  const scrollToIndex = useCallback(
+    (index: number) => {
+      const el = trackRef.current;
+      if (!el) return;
+      const children = Array.from(el.children) as HTMLElement[];
+      if (children.length === 0) return;
+
+      const boundedIndex = Math.max(0, Math.min(index, children.length - 1));
+      const maxScrollLeft = el.scrollWidth - el.clientWidth;
+      const targetLeft = Math.min(children[boundedIndex].offsetLeft, maxScrollLeft);
+
+      el.scrollTo({
+        left: targetLeft,
+        behavior: prefersReducedMotion ? 'auto' : 'smooth',
+      });
+    },
+    [prefersReducedMotion]
   );
 
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start end', 'end start'],
-  });
-  const parallaxY = useTransform(scrollYProgress, [0, 1], ['-2%', '2%']);
+  const stepCarousel = useCallback(
+    (direction: 'prev' | 'next') => {
+      const el = trackRef.current;
+      if (!el) return;
+      const children = Array.from(el.children) as HTMLElement[];
+      if (children.length === 0) return;
 
-  const handleChangePage = (nextPage: number, scrollTop = false) => {
-    setCurrentPage(nextPage);
-    if (scrollTop && sectionRef.current) {
-      const rect = sectionRef.current.getBoundingClientRect();
-      if (rect.top < 0) {
-        sectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const maxScrollLeft = el.scrollWidth - el.clientWidth;
+
+      if (direction === 'next') {
+        const nextCard = children.find((child) => child.offsetLeft > el.scrollLeft + 8);
+        const targetLeft = nextCard ? Math.min(nextCard.offsetLeft, maxScrollLeft) : maxScrollLeft;
+        el.scrollTo({
+          left: targetLeft,
+          behavior: prefersReducedMotion ? 'auto' : 'smooth',
+        });
+      } else {
+        const prevCards = children.filter((child) => child.offsetLeft < el.scrollLeft - 8);
+        const prevCard = prevCards[prevCards.length - 1];
+        const targetLeft = prevCard ? prevCard.offsetLeft : 0;
+        el.scrollTo({
+          left: targetLeft,
+          behavior: prefersReducedMotion ? 'auto' : 'smooth',
+        });
       }
+    },
+    [prefersReducedMotion]
+  );
+
+  const stepModal = useCallback((direction: 'prev' | 'next') => {
+    setSelectedIndex((current) => {
+      if (current === null) return null;
+      const delta = direction === 'next' ? 1 : -1;
+      return (current + delta + FACILITY_ITEMS.length) % FACILITY_ITEMS.length;
+    });
+  }, []);
+
+  useEffect(() => {
+    if (selectedIndex === null) return;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setSelectedIndex(null);
+      } else if (event.key === 'ArrowRight') {
+        stepModal('next');
+      } else if (event.key === 'ArrowLeft') {
+        stepModal('prev');
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedIndex, stepModal]);
+
+  const handleModalTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
+    modalTouchStartX.current = event.changedTouches[0]?.clientX ?? null;
+  };
+
+  const handleModalTouchEnd = (event: React.TouchEvent<HTMLDivElement>) => {
+    if (modalTouchStartX.current === null) return;
+    const endX = event.changedTouches[0]?.clientX ?? modalTouchStartX.current;
+    const deltaX = endX - modalTouchStartX.current;
+    modalTouchStartX.current = null;
+    if (Math.abs(deltaX) > 40) {
+      stepModal(deltaX < 0 ? 'next' : 'prev');
     }
   };
 
   return (
     <section
-      ref={sectionRef}
       id="facilities"
-      className="py-14 md:py-20 scroll-mt-16 bg-[#FAF8F5] dark:bg-stone-950 border-t border-stone-200 dark:border-stone-800/80 transition-colors overflow-x-clip"
+      className="relative py-16 md:py-24 bg-[#FAF8F5] dark:bg-stone-950 scroll-mt-16 transition-colors duration-300"
     >
-      <div className="max-w-6xl mx-auto px-5 sm:px-6 md:px-10">
-        {/* Compact Section Header */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10">
         <motion.div
-          initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 20 }}
-          animate={
-            isVisible
-              ? { opacity: 1, y: 0 }
-              : shouldReduceMotion
-                ? { opacity: 0 }
-                : { opacity: 0, y: 16 }
-          }
-          transition={{
-            duration: shouldReduceMotion ? 0.25 : 0.65,
-            delay: isVisible && !shouldReduceMotion ? 0.06 : 0,
-            ease: LUXURY_EASE,
-          }}
-          className="text-center max-w-2xl mx-auto mb-7 md:mb-9"
+          initial={prefersReducedMotion ? false : { opacity: 0, y: 18 }}
+          animate={isSectionVisible ? { opacity: 1, y: 0 } : undefined}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="mb-7 md:mb-10 flex items-end justify-between gap-4"
         >
-          <p className="text-xs tracking-[0.25em] uppercase text-amber-700 dark:text-amber-300/80 font-medium mb-1.5">
-            Resort Facilities
-          </p>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif-luxury text-stone-900 dark:text-stone-100 font-normal tracking-tight">
-            Curated For Serenity
+          <h2 className="text-2xl sm:text-4xl font-bold font-serif-luxury text-stone-900 dark:text-stone-100 tracking-tight">
+            Our Facilities
           </h2>
-          <p className="mt-2 text-xs sm:text-sm text-stone-600 dark:text-stone-400 font-light leading-relaxed">
-            Hillside villas, stone gardens, tea trails, and ridge firepits.
-          </p>
+          <span className="sm:hidden text-xs font-medium text-stone-500 dark:text-stone-400 tabular-nums">
+            {activeIndex + 1} / {FACILITY_ITEMS.length}
+          </span>
         </motion.div>
 
-        {/* Page Selector Pills (2 Facilities per Page) */}
-        <div className="grid grid-cols-2 sm:flex sm:flex-wrap justify-center gap-2 mb-8 md:mb-10">
-          {FACILITY_PAGES.map((tab, idx) => {
-            const isActive = currentPage === idx;
-            return (
-              <button
-                key={tab.label}
-                type="button"
-                onClick={() => handleChangePage(idx)}
-                className={`relative px-3.5 py-2 text-[11px] tracking-wider uppercase border transition-colors cursor-pointer ${
-                  isActive
-                    ? 'border-amber-800 dark:border-amber-400 text-amber-950 dark:text-amber-100 font-medium'
-                    : 'border-stone-300 dark:border-stone-800 text-stone-600 dark:text-stone-400 hover:border-stone-400 dark:hover:border-stone-700 bg-white/60 dark:bg-stone-900/50'
-                }`}
-              >
-                {isActive && (
-                  <motion.span
-                    layoutId="facilities-page-pill"
-                    transition={{ type: 'spring', stiffness: 320, damping: 28 }}
-                    className="absolute inset-0 bg-amber-100/90 dark:bg-amber-400/15"
-                  />
-                )}
-                <span className="relative z-10">{tab.label}</span>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Two Alternating Facilities per Page */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentPage}
-            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -14 }}
-            transition={{ duration: shouldReduceMotion ? 0.15 : 0.35, ease: LUXURY_EASE }}
-            className="space-y-8 md:space-y-12"
-          >
-            {visibleFacilities.map((facility, idx) => (
-              <FacilityShowcaseRow
-                key={facility.number}
-                facility={facility}
-                index={idx}
-                parallaxY={parallaxY}
-                onOpenBooking={onOpenBooking}
-              />
-            ))}
-          </motion.div>
-        </AnimatePresence>
-
-        {/* Bottom Prev / Next Pagination Bar */}
-        <div className="mt-8 md:mt-10 pt-5 border-t border-stone-200 dark:border-stone-800/80 flex items-center justify-between gap-4">
+        <div className="relative">
           <button
             type="button"
-            onClick={() =>
-              handleChangePage((currentPage - 1 + totalPages) % totalPages, true)
-            }
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 border border-stone-300 dark:border-stone-700 hover:border-stone-500 dark:hover:border-stone-500 text-xs tracking-wider uppercase text-stone-700 dark:text-stone-300 transition-colors cursor-pointer bg-white dark:bg-stone-900"
+            onClick={() => stepCarousel('prev')}
+            disabled={!canScrollPrev}
+            aria-label="Previous facility"
+            className="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/95 dark:bg-stone-900/95 border border-stone-200 dark:border-stone-700 text-stone-700 dark:text-stone-200 shadow-md hover:border-stone-400 dark:hover:border-stone-500 disabled:opacity-35 disabled:cursor-default transition-all cursor-pointer absolute left-2 sm:-left-4 md:-left-5 top-[118px] sm:top-1/2 -translate-y-1/2 z-10"
           >
-            <ChevronLeft className="w-3.5 h-3.5" />
-            <span>Previous</span>
+            <ChevronLeft className="w-4 h-4" />
           </button>
 
-          <div className="text-[11px] font-mono tracking-widest uppercase text-stone-500 dark:text-stone-400">
-            Page 0{currentPage + 1} / 0{totalPages}
+          <div
+            ref={trackRef}
+            onScroll={updateScrollState}
+            className="flex gap-5 overflow-x-auto scroll-smooth snap-x snap-mandatory touch-pan-x py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          >
+            {FACILITY_ITEMS.map((facility, idx) => (
+              <motion.article
+                key={facility.id}
+                initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
+                animate={isSectionVisible ? { opacity: 1, y: 0 } : undefined}
+                transition={{
+                  duration: 0.5,
+                  delay: prefersReducedMotion ? 0 : Math.min(idx, 4) * 0.06,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+                className="group shrink-0 snap-start w-full sm:w-[285px] lg:w-[295px] bg-white dark:bg-stone-900 rounded-2xl border border-stone-200/80 dark:border-stone-800 shadow-[0_6px_24px_rgba(28,25,23,0.05)] overflow-hidden flex flex-col justify-between transition-colors duration-300"
+              >
+                <div>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedIndex(idx)}
+                    aria-label={`View ${facility.title} photo`}
+                    className="block w-full aspect-[4/3] overflow-hidden bg-stone-100 dark:bg-stone-800 border-b border-stone-100 dark:border-stone-800 cursor-pointer text-left"
+                  >
+                    <img
+                      src={facility.imageUrl}
+                      alt={facility.title}
+                      className={`w-full h-full object-cover ${facility.imagePosition ?? 'object-center'} transition-transform duration-500 group-hover:scale-[1.03]`}
+                      loading={idx < 4 ? 'eager' : 'lazy'}
+                    />
+                  </button>
+
+                  <div className="px-5 pt-5 pb-4">
+                    <h3 className="text-lg font-bold font-serif-luxury text-stone-900 dark:text-stone-100 mb-3">
+                      {facility.title}
+                    </h3>
+
+                    <ul className="space-y-1.5 min-h-[124px] text-xs sm:text-[13px] text-stone-600 dark:text-stone-400">
+                      {facility.highlights.map((item) => (
+                        <li key={item} className="flex items-start gap-2 leading-relaxed">
+                          <span
+                            aria-hidden="true"
+                            className="mt-1.5 w-1 h-1 rounded-full bg-stone-500 dark:bg-stone-400 shrink-0"
+                          />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+
+                <div className="px-5 pb-5 pt-1 grid grid-cols-2 gap-3">
+                  <button
+                    type="button"
+                    onClick={onOpenBooking}
+                    className="rounded-full py-2 px-3 border border-amber-700/75 dark:border-amber-400/60 text-amber-800 dark:text-amber-300 hover:bg-amber-700 hover:text-white dark:hover:bg-amber-400 dark:hover:text-stone-950 text-xs font-semibold tracking-wide transition-colors cursor-pointer"
+                  >
+                    Book Now
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setSelectedIndex(idx)}
+                    className="rounded-full py-2 px-3 border border-stone-300 dark:border-stone-700 text-stone-900 dark:text-stone-100 hover:border-stone-900 dark:hover:border-stone-300 text-xs font-semibold tracking-wide transition-colors inline-flex items-center justify-center gap-1.5 cursor-pointer"
+                  >
+                    <span>View</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </motion.article>
+            ))}
           </div>
 
           <button
             type="button"
-            onClick={() => handleChangePage((currentPage + 1) % totalPages, true)}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 border border-stone-300 dark:border-stone-700 hover:border-stone-500 dark:hover:border-stone-500 text-xs tracking-wider uppercase text-stone-700 dark:text-stone-300 transition-colors cursor-pointer bg-white dark:bg-stone-900"
+            onClick={() => stepCarousel('next')}
+            disabled={!canScrollNext}
+            aria-label="Next facility"
+            className="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/95 dark:bg-stone-900/95 border border-stone-200 dark:border-stone-700 text-stone-700 dark:text-stone-200 shadow-md hover:border-stone-400 dark:hover:border-stone-500 disabled:opacity-35 disabled:cursor-default transition-all cursor-pointer absolute right-2 sm:-right-4 md:-right-5 top-[118px] sm:top-1/2 -translate-y-1/2 z-10"
+          >
+            <ChevronRight className="w-4 h-4" />
+          </button>
+        </div>
+
+        <div className="mt-5 flex sm:hidden items-center justify-between gap-3">
+          <button
+            type="button"
+            onClick={() => scrollToIndex(activeIndex - 1)}
+            disabled={activeIndex === 0}
+            aria-label="Previous facility card"
+            className="inline-flex items-center gap-1 rounded-full px-3 py-1.5 border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-900 text-xs font-medium text-stone-700 dark:text-stone-200 disabled:opacity-35 cursor-pointer"
+          >
+            <ChevronLeft className="w-3.5 h-3.5" />
+            <span>Prev</span>
+          </button>
+
+          <div className="flex items-center gap-1.5" role="tablist" aria-label="Facility slides">
+            {FACILITY_ITEMS.map((item, idx) => (
+              <button
+                key={item.id}
+                type="button"
+                role="tab"
+                aria-selected={idx === activeIndex}
+                aria-label={`Go to ${item.title}`}
+                onClick={() => scrollToIndex(idx)}
+                className={`h-2 rounded-full transition-all cursor-pointer ${
+                  idx === activeIndex
+                    ? 'w-5 bg-amber-700 dark:bg-amber-400'
+                    : 'w-2 bg-stone-300 dark:bg-stone-700'
+                }`}
+              />
+            ))}
+          </div>
+
+          <button
+            type="button"
+            onClick={() => scrollToIndex(activeIndex + 1)}
+            disabled={activeIndex === FACILITY_ITEMS.length - 1}
+            aria-label="Next facility card"
+            className="inline-flex items-center gap-1 rounded-full px-3 py-1.5 border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-900 text-xs font-medium text-stone-700 dark:text-stone-200 disabled:opacity-35 cursor-pointer"
           >
             <span>Next</span>
             <ChevronRight className="w-3.5 h-3.5" />
           </button>
         </div>
-
-        {/* Compact Book Your Stay CTA */}
-        <motion.div
-          initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.2 }}
-          transition={{ duration: shouldReduceMotion ? 0.25 : 0.65, ease: LUXURY_EASE }}
-          className="mt-8 md:mt-10 bg-[#F5F2EB] dark:bg-stone-900 border border-stone-200 dark:border-stone-800 px-6 py-7 md:px-10 md:py-8 flex flex-col md:flex-row items-center justify-between gap-5 text-center md:text-left shadow-sm dark:shadow-none"
-        >
-          <div>
-            <p className="text-[10px] tracking-[0.25em] uppercase text-amber-700 dark:text-amber-300/80 font-medium mb-1">
-              Your Highland Sanctuary Awaits
-            </p>
-            <h3 className="text-xl sm:text-2xl font-serif-luxury text-stone-900 dark:text-stone-100 font-normal tracking-tight">
-              Experience Every Moment Above The Clouds
-            </h3>
-          </div>
-
-          <motion.button
-            whileHover={shouldReduceMotion ? undefined : { y: -2, scale: 1.02 }}
-            whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
-            onClick={onOpenBooking}
-            type="button"
-            className="px-7 py-3 bg-amber-100 hover:bg-amber-200 text-stone-950 text-xs tracking-[0.2em] uppercase font-medium transition-colors inline-flex items-center gap-2 shadow-sm hover:shadow-md cursor-pointer group shrink-0"
-          >
-            <span>Book Your Stay</span>
-            <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </motion.button>
-        </motion.div>
       </div>
+
+      {typeof document !== 'undefined' &&
+        createPortal(
+          <AnimatePresence>
+            {selectedFacility && selectedIndex !== null && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setSelectedIndex(null)}
+                className="fixed inset-0 z-50 bg-stone-950/70 backdrop-blur-xs flex items-center justify-center p-4"
+              >
+                <motion.div
+                  role="dialog"
+                  aria-modal="true"
+                  aria-labelledby="facility-modal-title"
+                  initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.96, y: 12 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={prefersReducedMotion ? undefined : { opacity: 0, scale: 0.96, y: 12 }}
+                  onClick={(event) => event.stopPropagation()}
+                  className="w-full max-w-lg bg-white dark:bg-stone-900 rounded-2xl border border-stone-200 dark:border-stone-800 shadow-2xl overflow-hidden max-h-[92vh] flex flex-col"
+                >
+                  <div
+                    onTouchStart={handleModalTouchStart}
+                    onTouchEnd={handleModalTouchEnd}
+                    className="relative bg-stone-100 dark:bg-stone-950 flex items-center justify-center shrink-0"
+                  >
+                    <img
+                      src={selectedFacility.imageUrl}
+                      alt={selectedFacility.title}
+                      className="w-full max-h-[52vh] object-contain"
+                    />
+
+                    <button
+                      type="button"
+                      onClick={() => stepModal('prev')}
+                      aria-label="Previous image"
+                      className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 dark:bg-stone-900/90 text-stone-800 dark:text-stone-100 flex items-center justify-center shadow-md hover:bg-white dark:hover:bg-stone-800 cursor-pointer"
+                    >
+                      <ChevronLeft className="w-4 h-4" />
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => stepModal('next')}
+                      aria-label="Next image"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 dark:bg-stone-900/90 text-stone-800 dark:text-stone-100 flex items-center justify-center shadow-md hover:bg-white dark:hover:bg-stone-800 cursor-pointer"
+                    >
+                      <ChevronRight className="w-4 h-4" />
+                    </button>
+
+                    <span className="absolute bottom-3 left-3 rounded-full bg-stone-900/75 text-white text-[11px] font-medium px-2.5 py-1 tabular-nums">
+                      {selectedIndex + 1} / {FACILITY_ITEMS.length}
+                    </span>
+
+                    <button
+                      type="button"
+                      onClick={() => setSelectedIndex(null)}
+                      aria-label="Close facility preview"
+                      className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 dark:bg-stone-900/90 text-stone-700 dark:text-stone-200 flex items-center justify-center shadow-sm hover:bg-white dark:hover:bg-stone-800 cursor-pointer"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+
+                  <div className="p-5 sm:p-6 overflow-y-auto">
+                    <h3
+                      id="facility-modal-title"
+                      className="text-xl font-bold font-serif-luxury text-stone-900 dark:text-stone-100 mb-3"
+                    >
+                      {selectedFacility.title}
+                    </h3>
+
+                    <ul className="space-y-1.5 mb-5 text-sm text-stone-600 dark:text-stone-400">
+                      {selectedFacility.highlights.map((item) => (
+                        <li key={item} className="flex items-start gap-2.5">
+                          <span
+                            aria-hidden="true"
+                            className="mt-2 w-1.5 h-1.5 rounded-full bg-amber-700 dark:bg-amber-400 shrink-0"
+                          />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+
+                    <div className="flex items-center gap-3">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSelectedIndex(null);
+                          onOpenBooking();
+                        }}
+                        className="flex-1 rounded-full py-2.5 px-4 border border-amber-700/75 dark:border-amber-400/60 text-amber-800 dark:text-amber-300 hover:bg-amber-700 hover:text-white dark:hover:bg-amber-400 dark:hover:text-stone-950 text-xs font-semibold tracking-wide transition-colors cursor-pointer"
+                      >
+                        Book Now
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setSelectedIndex(null)}
+                        className="rounded-full py-2.5 px-5 border border-stone-300 dark:border-stone-700 text-stone-800 dark:text-stone-200 hover:border-stone-900 dark:hover:border-stone-300 text-xs font-semibold tracking-wide transition-colors cursor-pointer"
+                      >
+                        Close
+                      </button>
+                    </div>
+                  </div>
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>,
+          document.body
+        )}
     </section>
   );
 };

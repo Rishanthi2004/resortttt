@@ -54,6 +54,7 @@ export interface GalleryPhoto {
   title: string;
   category: 'architecture' | 'villas' | 'dining' | 'wellness' | 'nature';
   imageUrl: string;
+  imagePosition?: string;
   cameraExif: string;
   location: string;
   aspect: 'landscape' | 'portrait' | 'wide';
@@ -435,6 +436,76 @@ export const RESORT_DATA = {
       imageUrl: "/assets/aistudio/b01d3d3e628697c8bb82c00b8cd96ff1_2e27420a.jpg",
       cameraExif: "Nikon Z8 · NIKKOR Z 24-70mm f/2.8 S · ISO 250 · 1/160s",
       location: "Tea Estate Cloud Sanctuary",
+      aspect: "portrait"
+    },
+    {
+      id: "gal-room-1",
+      title: "Classic Twin Room Interior",
+      category: "villas",
+      imageUrl: "/assets/facility-room-01.jpg",
+      imagePosition: "object-[50%_62%]",
+      cameraExif: "28mm · f/2.8 · ISO 200 · Warm Brick Wing",
+      location: "Classic Twin Room",
+      aspect: "portrait"
+    },
+    {
+      id: "gal-room-2",
+      title: "Spacious Family Twin Suite",
+      category: "villas",
+      imageUrl: "/assets/facility-room-02.jpg",
+      imagePosition: "object-[50%_68%]",
+      cameraExif: "24mm · f/2.8 · ISO 250 · Family Wing",
+      location: "Spacious Family Twin",
+      aspect: "portrait"
+    },
+    {
+      id: "gal-room-3",
+      title: "Balcony Garden Twin View",
+      category: "villas",
+      imageUrl: "/assets/facility-room-03.jpg",
+      imagePosition: "object-[50%_64%]",
+      cameraExif: "24mm · f/4 · ISO 160 · Garden Wing",
+      location: "Balcony Garden Twin",
+      aspect: "portrait"
+    },
+    {
+      id: "gal-room-4",
+      title: "Garden Veranda King Suite",
+      category: "villas",
+      imageUrl: "/assets/facility-room-04.jpg",
+      imagePosition: "object-[50%_65%]",
+      cameraExif: "28mm · f/2.8 · ISO 200 · Veranda Wing",
+      location: "Garden Veranda Suite",
+      aspect: "portrait"
+    },
+    {
+      id: "gal-room-5",
+      title: "Standard Comfort Queen Room",
+      category: "villas",
+      imageUrl: "/assets/facility-room-05.jpg",
+      imagePosition: "object-[50%_66%]",
+      cameraExif: "24mm · f/2.8 · ISO 200 · Comfort Wing",
+      location: "Standard Comfort Queen",
+      aspect: "portrait"
+    },
+    {
+      id: "gal-room-6",
+      title: "Palm View Timber Ceiling Twin",
+      category: "villas",
+      imageUrl: "/assets/facility-room-06.jpg",
+      imagePosition: "object-[50%_58%]",
+      cameraExif: "28mm · f/4 · ISO 125 · Palm Grove Wing",
+      location: "Palm View Timber Twin",
+      aspect: "portrait"
+    },
+    {
+      id: "gal-room-7",
+      title: "Tropical Terrace King Suite",
+      category: "villas",
+      imageUrl: "/assets/facility-room-07.jpg",
+      imagePosition: "object-[50%_65%]",
+      cameraExif: "28mm · f/4 · ISO 160 · Terrace Wing",
+      location: "Tropical Terrace King",
       aspect: "portrait"
     }
   ] as GalleryPhoto[]
