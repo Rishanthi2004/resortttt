@@ -41,11 +41,11 @@ export const Hero: React.FC<HeroProps> = ({ onExploreVillas, onOpenBooking, onNa
           src={RESORT_DATA.userImages.heroPoolPavilion}
           alt="Brick-and-terracotta resort pavilion overlooking a turquoise swimming pool, lily pond, and lush garden walkway"
           referrerPolicy="no-referrer"
-          className="absolute inset-0 w-full h-full object-cover object-center contrast-[1.04] saturate-[1.05]"
+          className="absolute inset-0 w-full h-full object-cover object-center brightness-[1.06] contrast-[1.04] saturate-[1.06]"
         />
 
-        {/* Light edge-only vignette preserving photo clarity and text legibility */}
-        <div className="absolute inset-0 bg-gradient-to-t from-stone-950/40 via-stone-950/15 to-stone-950/30 pointer-events-none" />
+        {/* Ultra-light centered legibility glow only, keeping the photo bright and clear */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_58%_44%_at_50%_46%,rgba(12,10,9,0.26)_0%,transparent_74%)] pointer-events-none" />
       </div>
 
       {/* Main Headline & Centered Actions */}
