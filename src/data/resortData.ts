@@ -68,7 +68,7 @@ export const RESORT_DATA = {
   coordinates: "46°21'32\"N 10°52'19\"E",
   // User-provided real resort photography assets
   userImages: {
-    heroPoolPavilion: "/assets/hero-pool-pavilion.jpg",
+    heroPoolPavilion: "/assets/hero-pool-pavilion-hd.jpg",
     heroHillsideRetreat: "/assets/hero-hillside-retreat.jpg",
     cliffTimberBungalow: "/assets/gallery-cliff-timber-bungalow.jpg",
     mountainRidgeGrounds: "/assets/gallery-mountain-ridge-grounds.jpg",

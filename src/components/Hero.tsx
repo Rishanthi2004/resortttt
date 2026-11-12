@@ -41,7 +41,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreVillas, onOpenBooking }) =>
           src={RESORT_DATA.userImages.heroPoolPavilion}
           alt="Brick-and-terracotta resort pavilion overlooking a turquoise swimming pool, lily pond, and lush garden walkway"
           referrerPolicy="no-referrer"
-          className="absolute inset-0 w-full h-full object-cover object-center brightness-[1.06] contrast-[1.04] saturate-[1.06]"
+          className="absolute inset-0 w-full h-full object-cover object-center brightness-[1.09] contrast-[1.04] saturate-[1.06]"
         />
 
         {/* Ultra-light centered legibility glow only, keeping the photo bright and clear */}
